@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-US" xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title>Rails 2.3.x y Ruby 1.9, en espa&ntilde;ol – Vera</title>
+    <meta content="Lucas Florio (http://www.lucasefe.com.ar)" name="author" />
+    <link href="http://www.lucasefe.com.ar/feed/atom.xml" rel="alternate" title="Lucas Efe" type="application/atom+xml" />
+    <link href="/css/thickbox.css" rel="stylesheet" type="text/css" />
+    <link href="/css/coderay.css" rel="stylesheet" type="text/css" />
+    <link href="http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz" rel="stylesheet" type="text/css" />
+    <link href="http://fonts.googleapis.com/css?family=Reenie+Beanie" rel="stylesheet" type="text/css" />
+    <link href="/css/screen.css" rel="stylesheet" type="text/css" />
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js" type="text/javascript"></script>
+    <script src="/js/jquery.twitter.js" type="text/javascript"></script>
+    <script src="/js/thickbox-compressed.js" type="text/javascript"></script>
+    <script src="/js/app.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id="top-banner">
+      <div class="left-box">
+        <a href="/cv.html"><img src="http://www.gravatar.com/avatar/1156b6ec7075396cf55fcc7425b79b37?s=48&d=http%3A%2F%2Fgithub.com%2Fimages%2Fgravatars%2Fgravatar-48.png" width="30" height="30" alt="" /></a>
+        <a href="/about.html"><img alt='Acerca de Lucas Florio' src='/images/logo.png' width='100' height='20' /></a>
+      </div>
+      <div class="right-box">
+        <a href="http://www.myspace.com/justoalcaer"><img src='/images/myspace.png' width='20' height='20' /></a>
+        <a href="http://www.lucasefe.com.ar/feed/atom.xml"><img src='/images/rss.png' width='20' height='20' /></a>
+      </div>
+    </div>
+    <div id="site">
+      <div id="sidebar">
+        <form action="http://www.google.com/search" id="search" method="get">
+          <input class="text" name="q" type="text" />
+          <input name="sitesearch" type="hidden" value="lucasefe.com.ar" />
+          <input class="button" type="submit" value="Google" />
+        </form>
+        <div id="github">
+          <a href="http://github.com/lucasefe">
+            <img alt="github.com/lucasefe" src="http://github.com/images/modules/header/logov3.png" />
+          </a>
+        </div>
+        <div id="working-with-rails">
+          <a href="http://www.workingwithrails.com/recommendation/new/person/7277-lucas-florio">
+            <img alt="Recommend Me" src="http://workingwithrails.com/images/tools/compact-small.jpg" />
+          </a>
+        </div>
+        <div id="tweets"></div>
+      </div>
+      <div id="content">
+        <div id="post">
+          <h1><a href="/">Rails 2.3.x y Ruby 1.9, en espa&ntilde;ol</a></h1>
+          <p class="subtitle">
+            06/03/2010.
+            Tags:
+            <a href="/tag.html#desarrollo">desarrollo</a>, <a href="/tag.html#ruby">ruby</a> and <a href="/tag.html#rails">rails</a>.
+            <span id="edit"><a href="txmt://open?url=file:///Users/lucasefe/programming/lucasefe.com.ar/_posts/2010-03-6-rails-y-ruby-1-9-en-espa-ol.haml"></a></span>
+          </p>
+          <p>Hace unos meses pasamos una de las aplicaciones Rails (2.3.5) con las que estabamos trabajando hace tiempo a Ruby 1.9. Recuerdo que fue un quilombo importante. Ayer, arrancamos otra. Por no haber anotado el paso-a-paso terminamos perdiendo 2 horas con una huevada. Para evitarme otra p&eacute;rdida de tiempo, paso a describir el proceso que nos ha resultado mejor.</p>
+          <p>La cuesti&oacute;n es que Rails, por default, no labura con UTF-8, as&iacute; que hay dec&iacute;rselo, por todos lados. Ojo, trabaja con caracteres espa&ntilde;oles, pero no c&oacute;mo especifica la 1.9.</p>
+          <h2>Encoding en cada archivo Ruby.</h2>
+          <p>Hay que agregarle #encoding: utf-8 al principio de cada archivo. Si, es un plomo, pero con esta rake task es un poco m&aacute;s piloteable. La estructura inicial del script sali&oacute; de annotate_models.</p>
+          <p>Ejecutar: rake encoding:update_files # una  papa</p>
+          <a href="/tag.html#http-gist-github-com-323648">GIST</a>
+          <div class="CodeRay">
+            <div class="code"><pre>namespace <span style="color:#A60">:encoding</span> <span style="color:#080;font-weight:bold">do</span>&#x000A;  task <span style="color:#A60">:update_files</span> <span style="color:#080;font-weight:bold">do</span>&#x000A;    <span style="color:#036;font-weight:bold">Dir</span>.glob(<span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="">{app,config,spec,test,lib,db,features}/**/*.{rb,rake}</span><span style="color:#710">&quot;</span></span>).each <span style="color:#080;font-weight:bold">do</span> |f|&#x000A;      add_encoding(f)&#x000A;    <span style="color:#080;font-weight:bold">end</span>&#x000A;  <span style="color:#080;font-weight:bold">end</span>&#x000A;&#x000A;  <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">add_encoding</span>(file_name, encoding = <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="">utf-8</span><span style="color:#710">&quot;</span></span>)&#x000A;    <span style="color:#080;font-weight:bold">if</span> <span style="color:#036;font-weight:bold">File</span>.exist?(file_name)&#x000A;      old_content = <span style="color:#036;font-weight:bold">File</span>.read(file_name)&#x000A;&#x000A;      <span style="color:#888"># Ignore the Schema version line because it changes with each migration</span>&#x000A;      encoding_regexp = <span style="color:#036;font-weight:bold">Regexp</span>.new(<span style="background-color:#fff0ff"><span style="color:#404">/</span><span style="color:#808">^# encoding: (.*)$</span><span style="color:#404">/</span></span>)&#x000A;      match_data = old_content.match(encoding_regexp)&#x000A;      old_encoding = match_data ? match_data.captures[<span style="color:#00D;font-weight:bold">0</span>].strip : <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="color:#710">&quot;</span></span>&#x000A;&#x000A;      puts <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="background:#ddd;color:black"><span style="background:#ddd;font-weight:bold;color:#666">#{</span>file_name<span style="background:#ddd;font-weight:bold;color:#666">}</span></span><span style="">: </span><span style="background:#ddd;color:black"><span style="background:#ddd;font-weight:bold;color:#666">#{</span>old_encoding<span style="background:#ddd;font-weight:bold;color:#666">}</span></span><span style="color:#710">&quot;</span></span>&#x000A;      <span style="color:#080;font-weight:bold">unless</span> old_encoding == encoding&#x000A;        puts <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style=""> =&gt; Changing encoding </span><span style="background:#ddd;color:black"><span style="background:#ddd;font-weight:bold;color:#666">#{</span>old_encoding<span style="background:#ddd;font-weight:bold;color:#666">}</span></span><span style=""> to </span><span style="background:#ddd;color:black"><span style="background:#ddd;font-weight:bold;color:#666">#{</span>encoding<span style="background:#ddd;font-weight:bold;color:#666">}</span></span><span style="color:#710">&quot;</span></span>&#x000A;        old_content.sub!(encoding_regexp, <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="color:#710">&quot;</span></span>)&#x000A;        new_content = <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style=""># encoding: </span><span style="background:#ddd;color:black"><span style="background:#ddd;font-weight:bold;color:#666">#{</span>encoding<span style="background:#ddd;font-weight:bold;color:#666">}</span></span><span style=""> </span><span style="color:#b0b">\n</span><span style="background:#ddd;color:black"><span style="background:#ddd;font-weight:bold;color:#666">#{</span>old_content<span style="background:#ddd;font-weight:bold;color:#666">}</span></span><span style="color:#710">&quot;</span></span>&#x000A;        <span style="color:#036;font-weight:bold">File</span>.open(file_name, <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="">wb</span><span style="color:#710">&quot;</span></span>) { |f| f.puts new_content }&#x000A;      <span style="color:#080;font-weight:bold">end</span>&#x000A;    <span style="color:#080;font-weight:bold">end</span>&#x000A;  <span style="color:#080;font-weight:bold">end</span>&#x000A;<span style="color:#080;font-weight:bold">end</span>&#x000A;</pre></div>
+          </div>
+          <h2>Forzar encoding en lectura y escritura de datos</h2>
+          <p>La idea es con monkey patching forzar a ciertos m&oacute;dulos de Rails a que usen utf-8. No es la soluci&oacute;n m&aacute;s elegante, pero funciona. En este caso se soluciona c&oacute;mo se lee la base de datos (MySQL), como se interpretan los params y como se renderizan las vistas.</p>
+          <p>La data inicial de c&oacute;mo resolver esto la sacamos de un post de <a href="/tag.html#http-akitaonrails-com-2010-01-04-fixes-para-ruby-1-9-rails-2-3-x-e-unicode">Akita</a></p>
+          <a href="http://gist.github.com/271196">GIST</a>
+          <div class="CodeRay">
+            <div class="code"><pre>require <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">mysql</span><span style="color:#710">'</span></span>&#x000A;&#x000A;<span style="color:#080;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">Mysql::Result</span>&#x000A;  <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">encode</span>(value, encoding = <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="">utf-8</span><span style="color:#710">&quot;</span></span>)&#x000A;    <span style="color:#036;font-weight:bold">String</span> === value &amp;&amp; <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">1.9</span><span style="color:#710">'</span></span>.respond_to?(<span style="color:#A60">:force_encoding</span>) ? value.force_encoding(encoding) : value&#x000A;  <span style="color:#080;font-weight:bold">end</span>&#x000A;&#x000A;  <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">each_utf8</span>(&amp;block)&#x000A;    each_orig <span style="color:#080;font-weight:bold">do</span> |row|&#x000A;      <span style="color:#080;font-weight:bold">yield</span> row.map {|col| encode(col) }&#x000A;    <span style="color:#080;font-weight:bold">end</span>&#x000A;  <span style="color:#080;font-weight:bold">end</span>&#x000A;  <span style="color:#080;font-weight:bold">alias</span> <span style="color:#06B;font-weight:bold">each_orig</span> <span style="color:#06B;font-weight:bold">each</span>&#x000A;  <span style="color:#080;font-weight:bold">alias</span> <span style="color:#06B;font-weight:bold">each</span> <span style="color:#06B;font-weight:bold">each_utf8</span>&#x000A;&#x000A;  <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">each_hash_utf8</span>(&amp;block)&#x000A;    each_hash_orig <span style="color:#080;font-weight:bold">do</span> |row|&#x000A;      row.each {|k, v| row[k] = encode(v) }&#x000A;      <span style="color:#080;font-weight:bold">yield</span>(row)&#x000A;    <span style="color:#080;font-weight:bold">end</span>&#x000A;  <span style="color:#080;font-weight:bold">end</span>&#x000A;  <span style="color:#080;font-weight:bold">alias</span> <span style="color:#06B;font-weight:bold">each_hash_orig</span> <span style="color:#06B;font-weight:bold">each_hash</span>&#x000A;  <span style="color:#080;font-weight:bold">alias</span> <span style="color:#06B;font-weight:bold">each_hash</span> <span style="color:#06B;font-weight:bold">each_hash_utf8</span>&#x000A;<span style="color:#080;font-weight:bold">end</span>&#x000A;<span style="color:#080;font-weight:bold">module</span> <span style="color:#B06;font-weight:bold">ActionController</span>&#x000A;  <span style="color:#080;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">Request</span>&#x000A;    private&#x000A;      <span style="color:#888"># Convert nested Hashs to HashWithIndifferentAccess and replace</span>&#x000A;      <span style="color:#888"># file upload hashs with UploadedFile objects</span>&#x000A;      <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">normalize_parameters</span>(value)&#x000A;        <span style="color:#080;font-weight:bold">case</span> value&#x000A;        <span style="color:#080;font-weight:bold">when</span> <span style="color:#036;font-weight:bold">Hash</span>&#x000A;          <span style="color:#080;font-weight:bold">if</span> value.has_key?(<span style="color:#A60">:tempfile</span>)&#x000A;            upload = value[<span style="color:#A60">:tempfile</span>]&#x000A;            upload.extend(<span style="color:#036;font-weight:bold">UploadedFile</span>)&#x000A;            upload.original_path = value[<span style="color:#A60">:filename</span>]&#x000A;            upload.content_type = value[<span style="color:#A60">:type</span>]&#x000A;            upload&#x000A;          <span style="color:#080;font-weight:bold">else</span>&#x000A;            h = {}&#x000A;            value.each { |k, v| h[k] = normalize_parameters(v) }&#x000A;            h.with_indifferent_access&#x000A;          <span style="color:#080;font-weight:bold">end</span>&#x000A;        <span style="color:#080;font-weight:bold">when</span> <span style="color:#036;font-weight:bold">Array</span>&#x000A;          value.map { |e| normalize_parameters(e) }&#x000A;        <span style="color:#080;font-weight:bold">else</span>&#x000A;          value.force_encoding(<span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">utf-8</span><span style="color:#710">'</span></span>) <span style="color:#080;font-weight:bold">if</span> <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">1.9</span><span style="color:#710">'</span></span>.respond_to?(<span style="color:#A60">:force_encoding</span>)&#x000A;          value&#x000A;        <span style="color:#080;font-weight:bold">end</span>&#x000A;      <span style="color:#080;font-weight:bold">end</span>&#x000A;  <span style="color:#080;font-weight:bold">end</span>&#x000A;<span style="color:#080;font-weight:bold">end</span>&#x000A;&#x000A;<span style="color:#080;font-weight:bold">module</span> <span style="color:#B06;font-weight:bold">ActionView</span>&#x000A;  <span style="color:#080;font-weight:bold">module</span> <span style="color:#B06;font-weight:bold">Renderable</span> <span style="color:#888">#:nodoc:</span>&#x000A;    private&#x000A;      <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">compile!</span>(render_symbol, local_assigns)&#x000A;        locals_code = local_assigns.keys.map { |key| <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="background:#ddd;color:black"><span style="background:#ddd;font-weight:bold;color:#666">#{</span>key<span style="background:#ddd;font-weight:bold;color:#666">}</span></span><span style=""> = local_assigns[:</span><span style="background:#ddd;color:black"><span style="background:#ddd;font-weight:bold;color:#666">#{</span>key<span style="background:#ddd;font-weight:bold;color:#666">}</span></span><span style="">];</span><span style="color:#710">&quot;</span></span> }.join&#x000A;&#x000A;        source = <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&lt;&lt;-end_src</span></span><span style="background-color:#fff0f0;color:#D20"><span style="">&#x000A;          # encoding: utf-8&#x000A;          def </span><span style="background:#ddd;color:black"><span style="background:#ddd;font-weight:bold;color:#666">#{</span>render_symbol<span style="background:#ddd;font-weight:bold;color:#666">}</span></span><span style="">(local_assigns)&#x000A;            old_output_buffer = output_buffer;</span><span style="background:#ddd;color:black"><span style="background:#ddd;font-weight:bold;color:#666">#{</span>locals_code<span style="background:#ddd;font-weight:bold;color:#666">}</span></span><span style="">;&#x000A;            </span><span style="background:#ddd;color:black"><span style="background:#ddd;font-weight:bold;color:#666">#{</span>compiled_source<span style="background:#ddd;font-weight:bold;color:#666">}</span></span><span style="">&#x000A;          ensure&#x000A;            self.output_buffer = old_output_buffer&#x000A;          end</span><span style="color:#710">&#x000A;        end_src</span></span>&#x000A;&#x000A;        <span style="color:#888"># workaround</span>&#x000A;        source.force_encoding(<span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">utf-8</span><span style="color:#710">'</span></span>) <span style="color:#080;font-weight:bold">if</span> <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">1.9</span><span style="color:#710">'</span></span>.respond_to?(<span style="color:#A60">:force_encoding</span>)&#x000A;&#x000A;        <span style="color:#080;font-weight:bold">begin</span>&#x000A;          <span style="color:#036;font-weight:bold">ActionView</span>::<span style="color:#036;font-weight:bold">Base</span>::<span style="color:#036;font-weight:bold">CompiledTemplates</span>.module_eval(source, filename, <span style="color:#00D;font-weight:bold">0</span>)&#x000A;        <span style="color:#080;font-weight:bold">rescue</span> <span style="color:#036;font-weight:bold">Errno</span>::<span style="color:#036;font-weight:bold">ENOENT</span> =&gt; e&#x000A;          raise e <span style="color:#888"># Missing template file, re-raise for Base to rescue</span>&#x000A;        <span style="color:#080;font-weight:bold">rescue</span> <span style="color:#036;font-weight:bold">Exception</span> =&gt; e <span style="color:#888"># errors from template code</span>&#x000A;          <span style="color:#080;font-weight:bold">if</span> logger = <span style="color:#080;font-weight:bold">defined?</span>(<span style="color:#036;font-weight:bold">ActionController</span>) &amp;&amp; <span style="color:#036;font-weight:bold">Base</span>.logger&#x000A;            logger.debug <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="">ERROR: compiling </span><span style="background:#ddd;color:black"><span style="background:#ddd;font-weight:bold;color:#666">#{</span>render_symbol<span style="background:#ddd;font-weight:bold;color:#666">}</span></span><span style=""> RAISED </span><span style="background:#ddd;color:black"><span style="background:#ddd;font-weight:bold;color:#666">#{</span>e<span style="background:#ddd;font-weight:bold;color:#666">}</span></span><span style="color:#710">&quot;</span></span>&#x000A;            logger.debug <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="">Function body: </span><span style="background:#ddd;color:black"><span style="background:#ddd;font-weight:bold;color:#666">#{</span>source<span style="background:#ddd;font-weight:bold;color:#666">}</span></span><span style="color:#710">&quot;</span></span>&#x000A;            logger.debug <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="">Backtrace: </span><span style="background:#ddd;color:black"><span style="background:#ddd;font-weight:bold;color:#666">#{</span>e.backtrace.join(<span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="color:#b0b">\n</span><span style="color:#710">&quot;</span></span>)<span style="background:#ddd;font-weight:bold;color:#666">}</span></span><span style="color:#710">&quot;</span></span>&#x000A;          <span style="color:#080;font-weight:bold">end</span>&#x000A;&#x000A;          raise <span style="color:#036;font-weight:bold">ActionView</span>::<span style="color:#036;font-weight:bold">TemplateError</span>.new(<span style="color:#038;font-weight:bold">self</span>, {}, e)&#x000A;        <span style="color:#080;font-weight:bold">end</span>&#x000A;      <span style="color:#080;font-weight:bold">end</span>&#x000A;  <span style="color:#080;font-weight:bold">end</span>&#x000A;<span style="color:#080;font-weight:bold">end</span>&#x000A;</pre></div>
+          </div>
+          <h2>Forzar encoding al leer un archivos (antes de que se abra el log de Rails)</h2>
+          <p>Hay que cambiarle el default a Rails para que abra en UTF8 el log.</p>
+          <div class="CodeRay">
+            <div class="code"><pre>RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION&#x000A;Encoding.default_external = 'UTF-8' if defined? __ENCODING__&#x000A;require File.join(File.dirname(__FILE__), 'boot')&#x000A;</pre></div>
+          </div>
+          <h2>RVM, Passenger...</h2>
+          <p>Por &uacute;ltimo, y solo si usan RVM y Passenger, y bajo algunas circunstancias, tiene que agregarle al archivo $HOME/.rvm/bin/passenger_ruby la menci&oacute;n directa del encoding de la siguiente forma:</p>
+          <code>LC_TYPE=en_US.UTF-8;&#x000A;export LC_TYPE&#x000A;LANG=LC_TYPE;&#x000A;export LANG&#x000A;exec "/Users/lucasefe/.rvm/ruby-1.9.1-p376/bin/ruby" "$@ -KU"</code>
+          <h2>Referencias y Recursos</h2>
+          <ul>
+            <li>
+              <a href="http://akitaonrails.com/2010/01/04/fixes-para-ruby-1-9-rails-2-3-x-e-unicode">Fixes para Ruby 1.9, Rails 2.3.x e Unicode</a>
+              Hay que leer un poco de portugu&eacute;s.
+            </li>
+            <li><a href="http://blog.grayproductions.net/articles/understanding_m17n">Understanding M17n</a></li>
+            <li>Ruby Programming 3rd. edition</li>
+            <li><a href="http://rvm.beginrescueend.com/">RVM</a></li>
+            <li>
+              <a href="http://gist.github.com/323648">GIST1</a>
+              y
+              <a href="http://gist.github.com/271196">GIST2</a>
+            </li>
+          </ul>
+          <p>Seguro que me olvido de algo...</p>
+          <div id="older_and_newer">
+            <p>
+              <strong>Newer:</strong>
+              <a href="/2010/04/24/going-static.html">Going static</a>
+            </p>
+            <p>
+              <strong>Older:</strong>
+              <a href="/2010/02/16/ted-ideas-worth-spreading.html">TED - Ideas worth spreading</a>
+            </p>
+          </div>
+          <div id="related_posts">
+            <h3>Related posts</h3>
+            <p>
+              <strong>06/03/2010</strong>
+              <a href="/2010/03/06/rails-y-ruby-1-9-en-espa-ol.html">Rails 2.3.x y Ruby 1.9, en espa&ntilde;ol</a>
+            </p>
+            <p>
+              <strong>22/04/2009</strong>
+              <a href="/2009/04/22/remarkable.html">Remarkable</a>
+            </p>
+            <p>
+              <strong>10/05/2010</strong>
+              <a href="/2010/05/10/rails3-autotest-rspec2-y-ruby-1-9-2.html">Rails 3, Autotest, Rspec2 y Ruby 1.9.2</a>
+            </p>
+            <p>
+              <strong>16/03/2009</strong>
+              <a href="/2009/03/16/mix-day-1.html">Mix Day 1 - Parte 1</a>
+            </p>
+            <p>
+              <strong>05/04/2009</strong>
+              <a href="/2009/04/05/locosxrails-resolutions.html">LocosXRails Post Resolutions</a>
+            </p>
+            <p>
+              <strong>26/04/2010</strong>
+              <a href="/2010/04/26/base-generators.html">Base Generators</a>
+            </p>
+            <p>
+              <strong>23/03/2009</strong>
+              <a href="/2009/03/23/mix-day-2.html">Feliz Mix Day (2)</a>
+            </p>
+            <p>
+              <strong>22/09/2009</strong>
+              <a href="/2009/09/22/encuesta-sobre-ruby-argentina.html">Encuesta sobre Ruby en Argentina usando Google Forms</a>
+            </p>
+            <p>
+              <strong>22/09/2008</strong>
+              <a href="/2008/09/22/manzanas.html">Manzanas</a>
+            </p>
+            <p>
+              <strong>13/12/2009</strong>
+              <a href="/2009/12/13/kit-basico-de-librerias-2009.html">Kit b&aacute;sico de librer&iacute;as 2009</a>
+            </p>
+            <p>
+              <strong>10/09/2008</strong>
+              <a href="/2008/09/10/ableton-save-my-life.html">Ableton save my life!</a>
+            </p>
+          </div>
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+            //<![CDATA[
+                var disqus_developer = location.host.match(/\.dev$|^localhost/) ? 1 : 0;
+            //]]>
+          </script>
+          <script type="text/javascript">
+            //<![CDATA[
+              (function() {
+               var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+               dsq.src = 'http://lucasefe.disqus.com/embed.js';
+               (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+            //]]>
+          </script>
+          <noscript>
+            Please enable JavaScript to view the
+            <a href="http://disqus.com/?ref_noscript=lucasefe">comments powered by Disqus.</a>
+          </noscript>
+        </div>
+      </div>
+      <p id="footer">
+        Powered by
+        <a href="http://github.com/henrik/jekyll">Jekyll</a>
+        and
+        <a href="http://disqus.com">Disqus</a>.
+        <a href="http://github.com/lucasefe/lucasefe.com.ar">View source</a>.
+      </p>
+      <script type="text/javascript">
+        //<![CDATA[
+          // Google Analytics
+          var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+          document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          
+          <script type="text/javascript">
+          var pageTracker = _gat._getTracker("UA-83541-8");
+          pageTracker._trackPageview();
+        //]]>
+      </script>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-US" xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title>Usando Rails 2.3.x con Bundler – Vera</title>
+    <meta content="Lucas Florio (http://www.lucasefe.com.ar)" name="author" />
+    <link href="http://www.lucasefe.com.ar/feed/atom.xml" rel="alternate" title="Lucas Efe" type="application/atom+xml" />
+    <link href="/css/screen.css" rel="stylesheet" type="text/css" />
+    <link href="/css/thickbox.css" rel="stylesheet" type="text/css" />
+    <link href="/css/coderay.css" rel="stylesheet" type="text/css" />
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js" type="text/javascript"></script>
+    <script src="/js/jquery.twitter.js" type="text/javascript"></script>
+    <script src="/js/thickbox-compressed.js" type="text/javascript"></script>
+    <script src="/js/app.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id="top-banner">
+      <div class="left-box">
+        <a href="/cv.html"><img src="http://www.gravatar.com/avatar/1156b6ec7075396cf55fcc7425b79b37?s=48&d=http%3A%2F%2Fgithub.com%2Fimages%2Fgravatars%2Fgravatar-48.png" width="30" height="30" alt="" /></a>
+      </div>
+      <div class="right-box">
+        Acerca de <a href="/about.html">Lucas Florio</a> -
+        <a href="/cv.html">CV</a> -
+        <a href="http://www.lucasefe.com.ar/feed/atom.xml">RSS</a>
+      </div>
+    </div>
+    <div id="site">
+      <div id="sidebar">
+        <form action="http://www.google.com/search" id="search" method="get">
+          <input class="text" name="q" type="text" />
+          <input name="sitesearch" type="hidden" value="lucasefe.com.ar" />
+          <input class="button" type="submit" value="Google" />
+        </form>
+        <div id="github">
+          <a href="http://github.com/lucasefe">
+            <img alt="github.com/lucasefe" src="http://github.com/images/modules/header/logov3.png" />
+          </a>
+        </div>
+        <div id="tweets"></div>
+      </div>
+      <div id="content">
+        <div id="post">
+          <h1><a href="/">Usando Rails 2.3.x con Bundler</a></h1>
+          <p class="subtitle">
+            26/04/2010.
+            Tags:
+            <a href="/tag.html#rails">rails</a>, <a href="/tag.html#ruby">ruby</a> and <a href="/tag.html#bundler">bundler</a>.
+            <span id="edit"><a href="txmt://open?url=file:///Users/lucasefe/programming/lucasefe.com.ar/_posts/2010-04-26-rails-2-3-5-y-bundler.haml"></a></span>
+          </p>
+          <p>
+            Bundler est&aacute; buen&iacute;simo. Te permite manejar las dependencias de tu aplicaci&oacute;n Rails de una manera clara y prolija.
+          </p>
+          <p>La idea es simple. Declaramos en un archivo (Gemfile) cuales son las gemas que nuestra app usa, y sus correspondientes versiones. Cuando iniciamos la aplicaci&oacute;n bundler verifica que todo lo declarado se encuentre instalado. Pero eso no es lo &uacute;nico que hace. Adem&aacute;s se encarga de que solo est&eacute; disponible aquello que se declaro, ese decir que si quiero usar la gema 'dunga' tengo que haberla declarado obligatoriamente en el Gemfile. Al principio parece molesto, pero la realidad es que en la pr&aacute;ctica est&aacute; buen&iacute;simo.</p>
+          <p>Ahora, vamos con las malas noticias. No funciona con Rails 2.3.5 y anteriores. Pero obvio, una de cal y una de arena. Con un par de simples pasos eso se puede solucionar como para tener los beneficios de bundler en nuestra aplicaci&oacute;n actual.</p>
+          <h2>Instrucciones</h2>
+          <ul>
+            <li>
+              <p>Crear el RAILS_ROOT/config/preinitializer.rb con el siguiente contenido:</p>
+              <div class="CodeRay">
+                <div class="code"><pre><span style="color:#080;font-weight:bold">begin</span>&#x000A;  <span style="color:#888"># Set up load paths for the locked set of pre-resolved gems.</span>&#x000A;  require <span style="color:#036;font-weight:bold">File</span>.expand_path(<span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">../../.bundle/environment</span><span style="color:#710">'</span></span>, <span style="color:#038;font-weight:bold">__FILE__</span>)&#x000A;<span style="color:#080;font-weight:bold">rescue</span> <span style="color:#036;font-weight:bold">LoadError</span>&#x000A;  <span style="color:#888"># Fall back on trying to resolve out of already-installed gems at runtime.</span>&#x000A;  require <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="">rubygems</span><span style="color:#710">&quot;</span></span>&#x000A;  require <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="">bundler</span><span style="color:#710">&quot;</span></span>&#x000A;&#x000A;  <span style="color:#080;font-weight:bold">if</span> <span style="color:#036;font-weight:bold">Gem</span>::<span style="color:#036;font-weight:bold">Version</span>.new(<span style="color:#036;font-weight:bold">Bundler</span>::<span style="color:#036;font-weight:bold">VERSION</span>) &lt;= <span style="color:#036;font-weight:bold">Gem</span>::<span style="color:#036;font-weight:bold">Version</span>.new(<span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="">0.9.5</span><span style="color:#710">&quot;</span></span>)&#x000A;    raise <span style="color:#036;font-weight:bold">RuntimeError</span>,&#x000A;      <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="">Your bundler version is incompatible with Rails 2.3 and an unlocked bundle.</span><span style="color:#b0b">\n</span><span style="color:#710">&quot;</span></span> +&#x000A;      <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="">Run `gem install bundler` to upgrade or `bundle lock` to lock.</span><span style="color:#710">&quot;</span></span>&#x000A;  <span style="color:#080;font-weight:bold">end</span>&#x000A;&#x000A;  <span style="color:#080;font-weight:bold">begin</span>&#x000A;    <span style="color:#888"># Set up load paths for all bundled gems</span>&#x000A;    <span style="color:#036;font-weight:bold">Bundler</span>.setup&#x000A;    <span style="color:#888"># Require all gems not in a group</span>&#x000A;    <span style="color:#036;font-weight:bold">Bundler</span>.require <span style="color:#A60">:default</span>&#x000A;  <span style="color:#080;font-weight:bold">rescue</span> <span style="color:#036;font-weight:bold">Bundler</span>::<span style="color:#036;font-weight:bold">GemNotFound</span>&#x000A;    raise <span style="color:#036;font-weight:bold">Bundler</span>::<span style="color:#036;font-weight:bold">GemNotFound</span>, <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="">Bundler couldn't find some gems. Did you run `bundle install`?</span><span style="color:#710">&quot;</span></span>&#x000A;  <span style="color:#080;font-weight:bold">end</span>&#x000A;<span style="color:#080;font-weight:bold">end</span></pre></div>
+              </div>
+              <p>Cuando Rails ve que existe este archico, lo carga autom&aacute;ticamente.</p>
+            </li>
+            <li>
+              <p>Crear el archivo RAILS_ROOT/config/application.rb y poner lo siguiente:</p>
+              <div class="CodeRay">
+                <div class="code"><pre><span style="color:#080;font-weight:bold">class</span> <span style="color:#B06;font-weight:bold">MiAplicac</span>&amp;iacute;on &lt; <span style="color:#036;font-weight:bold">Rails</span>::<span style="color:#036;font-weight:bold">Initializer</span>&#x000A;  <span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">load_gems</span>&#x000A;    <span style="color:#080;font-weight:bold">super</span>&#x000A;    <span style="color:#036;font-weight:bold">Bundler</span>.require <span style="color:#036;font-weight:bold">Rails</span>.env, <span style="color:#A60">:plugins</span>&#x000A;  <span style="color:#080;font-weight:bold">end</span>&#x000A;<span style="color:#080;font-weight:bold">end</span></pre></div>
+              </div>
+            </li>
+            <li>
+              <p>Modificar RAILS_ROOT/config/environment.rb para que luego de la carga del boot.rb cargue el archivo antes mencionado (RAILS_ROOT/config/application.rb)</p>
+              <div class="CodeRay">
+                <div class="code"><pre>require <span style="color:#036;font-weight:bold">File</span>.join(<span style="color:#036;font-weight:bold">File</span>.dirname(<span style="color:#038;font-weight:bold">__FILE__</span>), <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">boot</span><span style="color:#710">'</span></span>)&#x000A;<span style="color:#888"># Esta l&amp;iacute;nea es la que agregamos.</span>&#x000A;require <span style="color:#036;font-weight:bold">File</span>.join(<span style="color:#036;font-weight:bold">File</span>.dirname(<span style="color:#038;font-weight:bold">__FILE__</span>), <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">application</span><span style="color:#710">'</span></span>)&#x000A;&#x000A;<span style="color:#036;font-weight:bold">MiAplicac</span>&amp;iacute;on.run <span style="color:#080;font-weight:bold">do</span> |config|&#x000A;  <span style="color:#888"># ...</span>&#x000A;<span style="color:#080;font-weight:bold">end</span></pre></div>
+              </div>
+              <h3>No olvidar cambiar Rails::Initializer por MiAplicac&iacute;on</h3>
+            </li>
+            <li>
+              <p>Por &uacute;ltimo solo hay que remover del environment.rb todas las llamadas a config.gem :... y reescribiarlas alla-Bundler en el archivo Gemfile (que va en el raiz de la aplicaci&oacute;n)</p>
+              <p>Veamos un ejemplo:</p>
+              <div class="CodeRay">
+                <div class="code"><pre>source <span style="color:#A60">:gemcutter</span>&#x000A;&#x000A;gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">rails</span><span style="color:#710">'</span></span>, <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">~&gt; 2.3.5</span><span style="color:#710">'</span></span>, <span style="color:#A60">:require</span> =&gt; <span style="color:#038;font-weight:bold">nil</span>&#x000A;gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">mysql</span><span style="color:#710">'</span></span>, <span style="color:#A60">:require</span> =&gt; <span style="color:#038;font-weight:bold">nil</span>&#x000A;gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">test-unit</span><span style="color:#710">'</span></span>, <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">1.2.3</span><span style="color:#710">'</span></span>, <span style="color:#A60">:require</span> =&gt; <span style="color:#038;font-weight:bold">nil</span>&#x000A;&#x000A;group <span style="color:#A60">:plugins</span> <span style="color:#080;font-weight:bold">do</span>&#x000A;  gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">friendly_id</span><span style="color:#710">'</span></span>&#x000A;  gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">factory_girl</span><span style="color:#710">'</span></span>&#x000A;  gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">faker</span><span style="color:#710">'</span></span>&#x000A;  gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">formtastic</span><span style="color:#710">'</span></span>&#x000A;  gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">haml</span><span style="color:#710">'</span></span>, <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">~&gt; 2.2.0</span><span style="color:#710">'</span></span>&#x000A;  gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">inherited_resources</span><span style="color:#710">'</span></span>, <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">~&gt; 1.0.6</span><span style="color:#710">'</span></span>&#x000A;  gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">lockdown</span><span style="color:#710">'</span></span>, <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">~&gt; 1.6.4</span><span style="color:#710">'</span></span>, <span style="color:#A60">:require</span> =&gt; <span style="color:#038;font-weight:bold">nil</span>&#x000A;  gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">newrelic_rpm</span><span style="color:#710">'</span></span>&#x000A;  gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">paperclip</span><span style="color:#710">'</span></span>, <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">~&gt; 2.3.1</span><span style="color:#710">'</span></span>&#x000A;  gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">ruby-openid</span><span style="color:#710">'</span></span>, <span style="color:#A60">:require</span> =&gt; <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">openid</span><span style="color:#710">'</span></span>&#x000A;  gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">ruby-yadis</span><span style="color:#710">'</span></span>, <span style="color:#A60">:require</span> =&gt; <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">yadis</span><span style="color:#710">'</span></span>&#x000A;  gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">searchlogic</span><span style="color:#710">'</span></span>, <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">~&gt; 2.3.6</span><span style="color:#710">'</span></span>&#x000A;  gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">will_paginate</span><span style="color:#710">'</span></span>, <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">~&gt; 2.3.11</span><span style="color:#710">'</span></span>&#x000A;<span style="color:#080;font-weight:bold">end</span>&#x000A;&#x000A;group <span style="color:#A60">:development</span> <span style="color:#080;font-weight:bold">do</span>&#x000A;  gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">annotate</span><span style="color:#710">'</span></span>&#x000A;  gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">ruby-debug19</span><span style="color:#710">'</span></span>&#x000A;  gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">bullet</span><span style="color:#710">'</span></span>&#x000A;<span style="color:#080;font-weight:bold">end</span>&#x000A;group <span style="color:#A60">:test</span> <span style="color:#080;font-weight:bold">do</span>&#x000A;  gem <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">sqlite3-ruby</span><span style="color:#710">'</span></span>, <span style="color:#A60">:require</span> =&gt; <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">'</span><span style="">sqlite3</span><span style="color:#710">'</span></span>&#x000A;<span style="color:#080;font-weight:bold">end</span>&#x000A;</pre></div>
+              </div>
+            </li>
+            <li>
+              <h2>Solo restar&iacute;a instalar bundler</h2>
+              <pre><code>gem install bundler</code></pre>
+            </li>
+            <li>
+              <h2>Y ejecutar</h2>
+              <pre><code>bundle install</code></pre>
+              <p>Este comando se va a encargar de instalar todo lo declarado en el Gemfile.</p>
+            </li>
+          </ul>
+          <h2>Aclaraciones</h2>
+          <p>
+            A simple vista parece que Bundler solo se encarga de instalar las gemas, pero no es así. Además se encarga de resolver dependencias antes de cargar todas las gemas.
+          </p>
+          <p>Más información acerca de esto en:</p>
+          <ul>
+            <li><a href="http://github.com/carlhuda/bundler">Github</a></li>
+            <li><a href="http://gembundler.com/">Gembundler</a></li>
+          </ul>
+          <div id="older_and_newer">
+            <p>
+              <strong>Newer:</strong>
+              <a href="/2010/04/26/rails-2-3-5-y-bundler.html">Usando Rails 2.3.x con Bundler</a>
+            </p>
+            <p>
+              <strong>Older:</strong>
+              <a href="/2010/04/24/going-static.html">Going static</a>
+            </p>
+          </div>
+          <div id="related_posts">
+            <h3>Related posts</h3>
+            <p>
+              <strong>06/03/2010</strong>
+              <a href="/2010/03/06/rails-y-ruby-1-9-en-espa-ol.html">Rails 2.3.x y Ruby 1.9, en espa&ntilde;ol</a>
+            </p>
+            <p>
+              <strong>22/04/2009</strong>
+              <a href="/2009/04/22/remarkable.html">Remarkable</a>
+            </p>
+            <p>
+              <strong>26/04/2010</strong>
+              <a href="/2010/04/26/base-generators.html">Base Generators</a>
+            </p>
+            <p>
+              <strong>05/04/2009</strong>
+              <a href="/2009/04/05/locosxrails-resolutions.html">LocosXRails Post Resolutions</a>
+            </p>
+            <p>
+              <strong>13/12/2009</strong>
+              <a href="/2009/12/13/kit-basico-de-librerias-2009.html">Kit b&aacute;sico de librer&iacute;as 2009</a>
+            </p>
+            <p>
+              <strong>16/03/2009</strong>
+              <a href="/2009/03/16/mix-day-1.html">Mix Day 1 - Parte 1</a>
+            </p>
+            <p>
+              <strong>02/11/2009</strong>
+              <a href="/2009/11/02/faith-no-more-en-el-pepsi-2009.html">Faith No More en el Pepsi 2009</a>
+            </p>
+            <p>
+              <strong>23/03/2009</strong>
+              <a href="/2009/03/23/mix-day-2.html">Feliz Mix Day (2)</a>
+            </p>
+            <p>
+              <strong>22/09/2009</strong>
+              <a href="/2009/09/22/encuesta-sobre-ruby-argentina.html">Encuesta sobre Ruby en Argentina usando Google Forms</a>
+            </p>
+            <p>
+              <strong>10/09/2008</strong>
+              <a href="/2008/09/10/ableton-save-my-life.html">Ableton save my life!</a>
+            </p>
+            <p>
+              <strong>09/03/2009</strong>
+              <a href="/2009/03/09/marzo.html">Marzo</a>
+            </p>
+          </div>
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+            //<![CDATA[
+                var disqus_developer = location.host.match(/\.dev$|^localhost/) ? 1 : 0;
+            //]]>
+          </script>
+          <script type="text/javascript">
+            //<![CDATA[
+              (function() {
+               var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+               dsq.src = 'http://lucasefe.disqus.com/embed.js';
+               (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+            //]]>
+          </script>
+          <noscript>
+            Please enable JavaScript to view the
+            <a href="http://disqus.com/?ref_noscript=lucasefe">comments powered by Disqus.</a>
+          </noscript>
+        </div>
+      </div>
+      <p id="footer">
+        Powered by
+        <a href="http://github.com/henrik/jekyll">Jekyll</a>
+        and
+        <a href="http://disqus.com">Disqus</a>.
+        <a href="http://github.com/lucasefe/lucasefe.com.ar">View source</a>.
+      </p>
+      <script type="text/javascript">
+        //<![CDATA[
+          // Google Analytics
+          var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+          document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          
+          <script type="text/javascript">
+          var pageTracker = _gat._getTracker("UA-83541-8");
+          pageTracker._trackPageview();
+        //]]>
+      </script>
+    </div>
+  </body>
+</html>

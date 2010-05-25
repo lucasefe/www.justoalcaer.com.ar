@@ -1,0 +1,12 @@
+source :gemcutter
+gem "haml", "2.2.23"
+gem 'liquid'
+gem 'RedCloth'
+gem 'open4'
+gem 'classifier'
+gem 'rdiscount'
+gem 'coderay'
+gem 'haml-coderay'
+gem 'maruku'
+gem 'activesupport', '2.3.5'
+gem 'directory_watcher'

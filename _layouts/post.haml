@@ -1,0 +1,46 @@
+---
+layout: default
+---
+#post
+  =header page.title
+  %p.subtitle
+    = page.date.strftime("%d/%m/%Y"), '.'
+    Tags: 
+    = tag_links(page.tags), "."
+
+    -# TextMate edit link. JS sets the link text if a cookie is present: see js/app.js.
+    %span#edit= link_to('', "txmt://open?url=file://#{page.path}")
+   
+  -# Without the squiggly, Haml will indent highlighted code. 
+  ~ content
+
+  #older_and_newer
+    - if page.next
+      %p
+        %strong Newer:
+        =post_link(page.next)
+    - if page.previous
+      %p
+        %strong Older:
+        =post_link(page.previous)
+
+  #related_posts
+    %h3 Related posts
+    - site.related_posts.each do |rp|
+      %p
+        %strong= rp.date.strftime("%d/%m/%Y")
+        = post_link(rp)
+  #disqus_thread
+  :javascript
+      var disqus_developer = location.host.match(/\.dev$|^localhost/) ? 1 : 0;
+  :javascript
+    (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = 'http://lucasefe.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+  %noscript 
+    Please enable JavaScript to view the
+    %a{:href=>"http://disqus.com/?ref_noscript=lucasefe"} comments powered by Disqus.
+  

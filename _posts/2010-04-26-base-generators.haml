@@ -1,0 +1,59 @@
+---
+title: Base Generators
+layout: post
+tags: 
+- rails
+- base-generators
+- ruby
+---
+%p 
+  Cada vez que comienzo con un proyecto me encuentro con las mismas tareas b&aacute;sicas. Poner jQuery, configurar las gemas b&aacute;sicas, poner un layout como la gente (que no sea esa cosa fea que trae rails por default). Adem&aacute;s me encuentro tambi&eacute;n con el problema de los requeriimientos b&aacute;sicos de cada ABM:
+
+%em "Ehhh, yo quiero poder buscar por nombre, y que est&eacute; ordenado por documento..."
+
+%p Adem&aacute;s es un cl&aacute;sico que tengo que agregar un mont&oacute;n de helpers que uso siempre. 
+
+%p Y ni hablar de la paginaci&oacute;n...
+
+%p As&iacute; que desde hace un tiempo, cre&eacute; el Base Generators que no es otra cosa que un conjunto de generadores para Rails que uso para no tener que pensar en eso cada vez y poder concentrarme en las cosas lindas que me gusta hacer (lo que eso sea).
+
+%h2 Instalaci&oacute;n
+
+%p 
+  El c&oacute;digo est&aacute; ac&aacute;: 
+  %code http://github.com/lucasefe/base-generators 
+  pero se puede instalar con un simple: 
+  %code gem install base-generators
+  
+%h2 &iquest;Qu&eacute; provee?
+
+%p Una imagen vale m&aacute;s que mil palabras:
+
+%a.thickbox{:href => '/images/base-generators-01.png' }
+  %img{:src => '/images/base-generators-01-thumb.png'}
+
+%p Por ahora provee dos generadores.
+
+%ul
+  %li
+    %h2 base_bootstrap
+    %p 
+      %code ruby script/generate base_bootstrap 
+    %p Genera los archivos requeridos por cada scaffold que luego generemos. Se incluyen algunos partials (que van en app/views/common) y m&aacute;s un par de helpers. La idea es generarlo una sola vez, cuando acabamos de crear la aplicaci&oacute;n. 
+    
+  %li 
+    %h2 base_scaffold
+    %p 
+      %code ruby script/generate base_scaffold Product title:string price:decimal
+    %p Genera un ABM que usa:
+    %ul
+      %li #{ link_to('inherited resources', 'http://github.com/josevalim/inherited_resources')} (no tiene sentido escribir una y mil veces los mismos m&eacute;todos en cada controller).
+      %li #{ link_to('WillPaginate', 'http://github.com/mislav/will-paginate')} para la paginaci&oacute;n
+      %li #{ link_to('Formtastic', 'http://github.com/justinfrench/formtastic')} (para los formularios de creaci&oacute;n, edici&oacute;n y b&uacute;squeda)
+      %li= link_to('Haml', 'http://github.com/nex3/haml')
+      %li= link_to('ShowFor', 'http://github.com/josevalim/show_for')
+      
+      
+%p En fin, una gema simple, que uso mucho y quiz&aacute;s le pueda servir a otros tambi&eacute;n. La idea no era inventar algo, sino evitar repetir las mismas tareas una y otra  vez. 
+    
+    

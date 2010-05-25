@@ -1,0 +1,91 @@
+* { margin: 0; padding: 0; }
+
+body { background-color: #fff; font-family: "Reenie Beanie", arial, clean, sans-serif; font-size: 1.4em; text-align: center; padding: 60px 20px 0 20px; }
+body #top-banner { background-color: #C9C9C9; border-bottom: solid 1px #B11A31; float: left; font-size: 1.2em; height: 40px; left: 0px; opacity: 0.5; position: fixed; text-align: right; top: 0px; width: 100%; }
+body #top-banner .right-box { float: right; padding: 13px 5px 5px 5px; }
+body #top-banner .left-box { float: left; padding: 5px; }
+
+h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+
+h1 { line-height: 110%; font-size: 2.4em; margin-bottom: 20px; }
+h1 a { color: #000; }
+h1 a:visited { color: #000; }
+
+h3, h4, h5 { margin: 1.5em 0 0.8em 0; }
+
+p { margin: 1em 0; }
+
+a { color: #B11A31; text-decoration: none; }
+a:hover { color: #B11A31; text-decoration: underline; }
+a:visited { color: #B11A31; }
+a img { border: 0; }
+
+table { font-size: inherit; font: 100%; }
+
+blockquote { margin: 10px 20px; font-style: italic; }
+
+div.year { margin-bottom: 60px; }
+div.year:last-child { margin-bottom: 0; }
+div.year h2.year { color: #888; float: left; margin: 0.2em 0 0 -3em; font-size: 250%; }
+div.year h3.month, div.year h2.tag { margin-top: 0; }
+
+ul { margin-left: 2em; }
+
+ul.posts { list-style-type: none; margin-bottom: 2em; margin-left: 0em; }
+ul.posts li { line-height: 1.75em; }
+ul.posts li strong.date { color: #888; margin-right: 5px; }
+.tag ul.posts li strong.date { width: 6.5em; display: inline-block; text-align: right; }
+
+#search { margin: 25px 0; }
+#search .text { width: 130px; font-size: 100%; }
+
+ol#tag-cloud { margin-bottom: 35px; }
+ol#tag-cloud li { display: inline; line-height: 150%; }
+ol#tag-cloud li a { padding: 2px; }
+ol#tag-cloud li.tier-1 { font-size: 75%; }
+ol#tag-cloud li.tier-2 { font-size: 90%; }
+ol#tag-cloud li.tier-3 { font-size: 105%; }
+ol#tag-cloud li.tier-4 { font-size: 120%; }
+ol#tag-cloud li.tier-5 { font-size: 135%; }
+ol#tag-cloud li.tier-6 { font-size: 150%; }
+
+#site { font-size: 100%; text-align: left; line-height: 1.5em; width: 800px; margin: 0 auto 2em auto; }
+#site #sidebar { float: right; width: 220px; margin-right: 1em; margin-bottom: 45px; }
+#site #sidebar #title { color: #DAA520; font-weight: bold; margin-bottom: 10px; font-size: 1.3em; text-align: center; }
+#site #sidebar #title a { color: #DAA520; }
+#site #sidebar #title a:hover { color: #000; }
+#site #sidebar #github, #site #sidebar #tweets, #site #sidebar #working-with-rails { margin-top: 45px; }
+#site #sidebar #github, #site #sidebar #working-with-rails { text-align: center; }
+#site #sidebar #tweets h2 { margin-bottom: -5px; }
+#site #sidebar #tweets li { list-style-type: none; font-size: 12px; background: #eee; padding: 8px 10px; margin: 15px 0; }
+#site #sidebar #tweets li:after { content: ""; border: 8px solid transparent; border-top: 8px solid #eee; border-bottom: 0; width: 0; height: 0; display: block; margin: 5px 0 -15px 0; }
+#site #content { width: 500px; margin-left: 1em; }
+#site #footer { clear: both; margin: 80px 0 -5px 0; font-size: 80%; }
+#site #footer a { color: #8085C1; }
+
+#about #photo { float: left; margin: 0 15px 5px 0; }
+
+#post h1 { margin-bottom: 0; }
+#post .subtitle { color: #BBB; margin-top: 0; font-size: 13px; }
+#post .subtitle a { color: #777; }
+#post .center { text-align: center; }
+#post img.bordered { border: 1px solid #AAA; }
+#post .updated { background: #FFFEEB; border: 1px solid #AAA; border-width: 1px 0; padding: 10px; margin: 20px 10px; }
+#post .updated h5 { margin: 6px 0; }
+#post #older_and_newer { margin-top: 20px; }
+#post #older_and_newer p { font-size: 0.8em; }
+#post #older_and_newer p strong { width: 10em; display: inline-block; text-align: right; margin-right: 5px; }
+#post #related_posts { margin-top: 30px; }
+#post #related_posts p { margin: 0; font-size: 0.8em; }
+#post #related_posts p strong { width: 10em; display: inline-block; text-align: right; margin-right: 5px; }
+
+/* Disqus comments */
+#disqus_thread { margin-top: 45px; }
+#disqus_thread .dsq-item-cp, #disqus_thread .dsq-comment-options, #disqus_thread li[id^=dsq-more-], #disqus_thread .dsq-by { display: none !important; }
+#disqus_thread #dsq-content #dsq-comments .dsq-comment-footer { margin-top: 5px; }
+
+/* Google 404 suggestions */
+#goog-fixurl { margin: 25px 0 0 0; }
+#goog-fixurl .content { width: auto; margin: 0; }
+#goog-fixurl ul { list-style-type: none; }
+#goog-fixurl ul li { margin: 15px 0; }

@@ -1,0 +1,37 @@
+---
+title: Cargando un diferentes frameworks en Compass cuando usamos Rails (2.3.5)
+layout: post
+---
+
+%p Estoy usando #{link_to('compass', 'http://github.com/chriseppstein/compass')} y #{link_to('compass-960-plugin', 'http://github.com/chriseppstein/compass-960-plugin')}, pero en sus versiones prerelease. 
+
+%p Mi Gemfile luce as&iacute;: 
+
+:coderay
+  #!ruby
+  source :gemcutter
+  gem 'rails', '~> 2.3.5', :require => nil
+  gem 'mysql', :require => nil
+  gem 'sqlite3-ruby', :require => 'sqlite3'
+  gem 'test-unit', '1.2.3', :require => nil
+
+  group :plugins do
+    #...
+    gem "haml", "3.0.0.rc.2"
+    gem 'compass', '0.10.0.rc4'
+    gem 'compass-960-plugin'
+  end
+  
+%p La cuesti&oacute;n es simple. Cómo le digo a compass que me incluya un determinado plugin? Según la documentación, debería indicárselo así: 
+
+%pre
+  %code
+    compass create -r ninesixty . --using 960 --syntax sass
+
+%p Pero la realidad es que deberíamos indicarselo así:
+
+%pre
+  %code
+    compass create -r ninesixty . --using 960 --syntax sass --app rails
+    
+%p Y eso ser&iacute;a todo. Si no le especificamos a compass que estamos usando Rails (con el --app rails), nos va a terminar generando los archivos en un directorio src/ porque asume que el tipo de aplicaci&oacute;n que estamos construyendo es standalone. 

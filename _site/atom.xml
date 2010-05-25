@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>Lucas Efe</title>
+ <link href="http://henrik.nyh.se/atom.xml" rel="self"/>
+ <link href="http://henrik.nyh.se/"/>
+ <updated>2010-04-25T20:13:07-03:00</updated>
+ <id>http://henrik.nyh.se/</id>
+ <author>
+   <name>Henrik Nyh</name>
+   <email>henrik@nyh.se</email>
+ </author>
+
+ 
+ <entry>
+   <title>First things first</title>
+   <link href="http://henrik.nyh.se/2010/04/24/first-things-first"/>
+   <updated>2010-04-24T00:00:00-03:00</updated>
+   <id>http://henrik.nyh.se/2010/04/24/first-things-first</id>
+   <content type="html">Hello
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Rails 2.3.x y Ruby 1.9, en espa&ntilde;ol</title>
+   <link href="http://henrik.nyh.se/2010/03/06/rails-y-ruby-1-9-en-espa-ol"/>
+   <updated>2010-03-06T00:00:00-03:00</updated>
+   <id>http://henrik.nyh.se/2010/03/06/rails-y-ruby-1-9-en-espa-ol</id>
+   <content type="html">&lt;p&gt;Hace unos meses pasamos una de las aplicaciones Rails (2.3.5) con las que estabamos trabajando hace tiempo a Ruby 1.9. Recuerdo que fue un quilombo importante. Ayer, arrancamos otra. Por no haber anotado el paso-a-paso terminamos perdiendo 2 horas con una huevada. Para evitarme otra p&amp;eacute;rdida de tiempo, paso a describir el proceso que nos ha resultado mejor.&lt;/p&gt;
+&lt;p&gt;La cuesti&amp;oacute;n es que Rails, por default, no labura con UTF-8, as&amp;iacute; que hay dec&amp;iacute;rselo, por todos lados. Ojo, trabaja con caracteres espa&amp;ntilde;oles, pero no c&amp;oacute;mo especifica la 1.9.&lt;/p&gt;
+&lt;h2&gt;Encoding en cada archivo Ruby.&lt;/h2&gt;
+&lt;p&gt;Hay que agregarle #encoding: utf-8 al principio de cada archivo. Si, es un plomo, pero con esta rake task es un poco m&amp;aacute;s piloteable. La estructura inicial del script sali&amp;oacute; de annotate_models.&lt;/p&gt;
+&lt;p&gt;Ejecutar: rake encoding:update_files # una  papa&lt;/p&gt;
+&lt;a href="/tag.html#http-gist-github-com-323648"&gt;GIST&lt;/a&gt;
+&lt;div class="CodeRay"&gt;
+  &lt;div class="code"&gt;&lt;pre&gt;namespace &lt;span style="color:#A60"&gt;:encoding&lt;/span&gt; &lt;span style="color:#080;font-weight:bold"&gt;do&lt;/span&gt;&amp;#x000A;  task &lt;span style="color:#A60"&gt;:update_files&lt;/span&gt; &lt;span style="color:#080;font-weight:bold"&gt;do&lt;/span&gt;&amp;#x000A;    &lt;span style="color:#036;font-weight:bold"&gt;Dir&lt;/span&gt;.glob(&lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;span style=""&gt;{app,config,spec,test,lib,db,features}/**/*.{rb,rake}&lt;/span&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;).each &lt;span style="color:#080;font-weight:bold"&gt;do&lt;/span&gt; |f|&amp;#x000A;      add_encoding(f)&amp;#x000A;    &lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;  &lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;&amp;#x000A;  &lt;span style="color:#080;font-weight:bold"&gt;def&lt;/span&gt; &lt;span style="color:#06B;font-weight:bold"&gt;add_encoding&lt;/span&gt;(file_name, encoding = &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;span style=""&gt;utf-8&lt;/span&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)&amp;#x000A;    &lt;span style="color:#080;font-weight:bold"&gt;if&lt;/span&gt; &lt;span style="color:#036;font-weight:bold"&gt;File&lt;/span&gt;.exist?(file_name)&amp;#x000A;      old_content = &lt;span style="color:#036;font-weight:bold"&gt;File&lt;/span&gt;.read(file_name)&amp;#x000A;&amp;#x000A;      &lt;span style="color:#888"&gt;# Ignore the Schema version line because it changes with each migration&lt;/span&gt;&amp;#x000A;      encoding_regexp = &lt;span style="color:#036;font-weight:bold"&gt;Regexp&lt;/span&gt;.new(&lt;span style="background-color:#fff0ff"&gt;&lt;span style="color:#404"&gt;/&lt;/span&gt;&lt;span style="color:#808"&gt;^# encoding: (.*)$&lt;/span&gt;&lt;span style="color:#404"&gt;/&lt;/span&gt;&lt;/span&gt;)&amp;#x000A;      match_data = old_content.match(encoding_regexp)&amp;#x000A;      old_encoding = match_data ? match_data.captures[&lt;span style="color:#00D;font-weight:bold"&gt;0&lt;/span&gt;].strip : &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&amp;#x000A;&amp;#x000A;      puts &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;span style="background:#ddd;color:black"&gt;&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;#{&lt;/span&gt;file_name&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span style=""&gt;: &lt;/span&gt;&lt;span style="background:#ddd;color:black"&gt;&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;#{&lt;/span&gt;old_encoding&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&amp;#x000A;      &lt;span style="color:#080;font-weight:bold"&gt;unless&lt;/span&gt; old_encoding == encoding&amp;#x000A;        puts &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;span style=""&gt; =&amp;gt; Changing encoding &lt;/span&gt;&lt;span style="background:#ddd;color:black"&gt;&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;#{&lt;/span&gt;old_encoding&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span style=""&gt; to &lt;/span&gt;&lt;span style="background:#ddd;color:black"&gt;&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;#{&lt;/span&gt;encoding&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&amp;#x000A;        old_content.sub!(encoding_regexp, &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)&amp;#x000A;        new_content = &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;span style=""&gt;# encoding: &lt;/span&gt;&lt;span style="background:#ddd;color:black"&gt;&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;#{&lt;/span&gt;encoding&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span style=""&gt; &lt;/span&gt;&lt;span style="color:#b0b"&gt;\n&lt;/span&gt;&lt;span style="background:#ddd;color:black"&gt;&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;#{&lt;/span&gt;old_content&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&amp;#x000A;        &lt;span style="color:#036;font-weight:bold"&gt;File&lt;/span&gt;.open(file_name, &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;span style=""&gt;wb&lt;/span&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;) { |f| f.puts new_content }&amp;#x000A;      &lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;    &lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;  &lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;&lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;Forzar encoding en lectura y escritura de datos&lt;/h2&gt;
+&lt;p&gt;La idea es con monkey patching forzar a ciertos m&amp;oacute;dulos de Rails a que usen utf-8. No es la soluci&amp;oacute;n m&amp;aacute;s elegante, pero funciona. En este caso se soluciona c&amp;oacute;mo se lee la base de datos (MySQL), como se interpretan los params y como se renderizan las vistas.&lt;/p&gt;
+&lt;p&gt;La data inicial de c&amp;oacute;mo resolver esto la sacamos de un post de &lt;a href="/tag.html#http-akitaonrails-com-2010-01-04-fixes-para-ruby-1-9-rails-2-3-x-e-unicode"&gt;Akita&lt;/a&gt;&lt;/p&gt;
+&lt;a href="http://gist.github.com/271196"&gt;GIST&lt;/a&gt;
+&lt;div class="CodeRay"&gt;
+  &lt;div class="code"&gt;&lt;pre&gt;require &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;'&lt;/span&gt;&lt;span style=""&gt;mysql&lt;/span&gt;&lt;span style="color:#710"&gt;'&lt;/span&gt;&lt;/span&gt;&amp;#x000A;&amp;#x000A;&lt;span style="color:#080;font-weight:bold"&gt;class&lt;/span&gt; &lt;span style="color:#B06;font-weight:bold"&gt;Mysql::Result&lt;/span&gt;&amp;#x000A;  &lt;span style="color:#080;font-weight:bold"&gt;def&lt;/span&gt; &lt;span style="color:#06B;font-weight:bold"&gt;encode&lt;/span&gt;(value, encoding = &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;span style=""&gt;utf-8&lt;/span&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)&amp;#x000A;    &lt;span style="color:#036;font-weight:bold"&gt;String&lt;/span&gt; === value &amp;amp;&amp;amp; &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;'&lt;/span&gt;&lt;span style=""&gt;1.9&lt;/span&gt;&lt;span style="color:#710"&gt;'&lt;/span&gt;&lt;/span&gt;.respond_to?(&lt;span style="color:#A60"&gt;:force_encoding&lt;/span&gt;) ? value.force_encoding(encoding) : value&amp;#x000A;  &lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;&amp;#x000A;  &lt;span style="color:#080;font-weight:bold"&gt;def&lt;/span&gt; &lt;span style="color:#06B;font-weight:bold"&gt;each_utf8&lt;/span&gt;(&amp;amp;block)&amp;#x000A;    each_orig &lt;span style="color:#080;font-weight:bold"&gt;do&lt;/span&gt; |row|&amp;#x000A;      &lt;span style="color:#080;font-weight:bold"&gt;yield&lt;/span&gt; row.map {|col| encode(col) }&amp;#x000A;    &lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;  &lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;  &lt;span style="color:#080;font-weight:bold"&gt;alias&lt;/span&gt; &lt;span style="color:#06B;font-weight:bold"&gt;each_orig&lt;/span&gt; &lt;span style="color:#06B;font-weight:bold"&gt;each&lt;/span&gt;&amp;#x000A;  &lt;span style="color:#080;font-weight:bold"&gt;alias&lt;/span&gt; &lt;span style="color:#06B;font-weight:bold"&gt;each&lt;/span&gt; &lt;span style="color:#06B;font-weight:bold"&gt;each_utf8&lt;/span&gt;&amp;#x000A;&amp;#x000A;  &lt;span style="color:#080;font-weight:bold"&gt;def&lt;/span&gt; &lt;span style="color:#06B;font-weight:bold"&gt;each_hash_utf8&lt;/span&gt;(&amp;amp;block)&amp;#x000A;    each_hash_orig &lt;span style="color:#080;font-weight:bold"&gt;do&lt;/span&gt; |row|&amp;#x000A;      row.each {|k, v| row[k] = encode(v) }&amp;#x000A;      &lt;span style="color:#080;font-weight:bold"&gt;yield&lt;/span&gt;(row)&amp;#x000A;    &lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;  &lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;  &lt;span style="color:#080;font-weight:bold"&gt;alias&lt;/span&gt; &lt;span style="color:#06B;font-weight:bold"&gt;each_hash_orig&lt;/span&gt; &lt;span style="color:#06B;font-weight:bold"&gt;each_hash&lt;/span&gt;&amp;#x000A;  &lt;span style="color:#080;font-weight:bold"&gt;alias&lt;/span&gt; &lt;span style="color:#06B;font-weight:bold"&gt;each_hash&lt;/span&gt; &lt;span style="color:#06B;font-weight:bold"&gt;each_hash_utf8&lt;/span&gt;&amp;#x000A;&lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;&lt;span style="color:#080;font-weight:bold"&gt;module&lt;/span&gt; &lt;span style="color:#B06;font-weight:bold"&gt;ActionController&lt;/span&gt;&amp;#x000A;  &lt;span style="color:#080;font-weight:bold"&gt;class&lt;/span&gt; &lt;span style="color:#B06;font-weight:bold"&gt;Request&lt;/span&gt;&amp;#x000A;    private&amp;#x000A;      &lt;span style="color:#888"&gt;# Convert nested Hashs to HashWithIndifferentAccess and replace&lt;/span&gt;&amp;#x000A;      &lt;span style="color:#888"&gt;# file upload hashs with UploadedFile objects&lt;/span&gt;&amp;#x000A;      &lt;span style="color:#080;font-weight:bold"&gt;def&lt;/span&gt; &lt;span style="color:#06B;font-weight:bold"&gt;normalize_parameters&lt;/span&gt;(value)&amp;#x000A;        &lt;span style="color:#080;font-weight:bold"&gt;case&lt;/span&gt; value&amp;#x000A;        &lt;span style="color:#080;font-weight:bold"&gt;when&lt;/span&gt; &lt;span style="color:#036;font-weight:bold"&gt;Hash&lt;/span&gt;&amp;#x000A;          &lt;span style="color:#080;font-weight:bold"&gt;if&lt;/span&gt; value.has_key?(&lt;span style="color:#A60"&gt;:tempfile&lt;/span&gt;)&amp;#x000A;            upload = value[&lt;span style="color:#A60"&gt;:tempfile&lt;/span&gt;]&amp;#x000A;            upload.extend(&lt;span style="color:#036;font-weight:bold"&gt;UploadedFile&lt;/span&gt;)&amp;#x000A;            upload.original_path = value[&lt;span style="color:#A60"&gt;:filename&lt;/span&gt;]&amp;#x000A;            upload.content_type = value[&lt;span style="color:#A60"&gt;:type&lt;/span&gt;]&amp;#x000A;            upload&amp;#x000A;          &lt;span style="color:#080;font-weight:bold"&gt;else&lt;/span&gt;&amp;#x000A;            h = {}&amp;#x000A;            value.each { |k, v| h[k] = normalize_parameters(v) }&amp;#x000A;            h.with_indifferent_access&amp;#x000A;          &lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;        &lt;span style="color:#080;font-weight:bold"&gt;when&lt;/span&gt; &lt;span style="color:#036;font-weight:bold"&gt;Array&lt;/span&gt;&amp;#x000A;          value.map { |e| normalize_parameters(e) }&amp;#x000A;        &lt;span style="color:#080;font-weight:bold"&gt;else&lt;/span&gt;&amp;#x000A;          value.force_encoding(&lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;'&lt;/span&gt;&lt;span style=""&gt;utf-8&lt;/span&gt;&lt;span style="color:#710"&gt;'&lt;/span&gt;&lt;/span&gt;) &lt;span style="color:#080;font-weight:bold"&gt;if&lt;/span&gt; &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;'&lt;/span&gt;&lt;span style=""&gt;1.9&lt;/span&gt;&lt;span style="color:#710"&gt;'&lt;/span&gt;&lt;/span&gt;.respond_to?(&lt;span style="color:#A60"&gt;:force_encoding&lt;/span&gt;)&amp;#x000A;          value&amp;#x000A;        &lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;      &lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;  &lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;&lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;&amp;#x000A;&lt;span style="color:#080;font-weight:bold"&gt;module&lt;/span&gt; &lt;span style="color:#B06;font-weight:bold"&gt;ActionView&lt;/span&gt;&amp;#x000A;  &lt;span style="color:#080;font-weight:bold"&gt;module&lt;/span&gt; &lt;span style="color:#B06;font-weight:bold"&gt;Renderable&lt;/span&gt; &lt;span style="color:#888"&gt;#:nodoc:&lt;/span&gt;&amp;#x000A;    private&amp;#x000A;      &lt;span style="color:#080;font-weight:bold"&gt;def&lt;/span&gt; &lt;span style="color:#06B;font-weight:bold"&gt;compile!&lt;/span&gt;(render_symbol, local_assigns)&amp;#x000A;        locals_code = local_assigns.keys.map { |key| &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;span style="background:#ddd;color:black"&gt;&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;#{&lt;/span&gt;key&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span style=""&gt; = local_assigns[:&lt;/span&gt;&lt;span style="background:#ddd;color:black"&gt;&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;#{&lt;/span&gt;key&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span style=""&gt;];&lt;/span&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; }.join&amp;#x000A;&amp;#x000A;        source = &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;&amp;lt;&amp;lt;-end_src&lt;/span&gt;&lt;/span&gt;&lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style=""&gt;&amp;#x000A;          # encoding: utf-8&amp;#x000A;          def &lt;/span&gt;&lt;span style="background:#ddd;color:black"&gt;&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;#{&lt;/span&gt;render_symbol&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span style=""&gt;(local_assigns)&amp;#x000A;            old_output_buffer = output_buffer;&lt;/span&gt;&lt;span style="background:#ddd;color:black"&gt;&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;#{&lt;/span&gt;locals_code&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span style=""&gt;;&amp;#x000A;            &lt;/span&gt;&lt;span style="background:#ddd;color:black"&gt;&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;#{&lt;/span&gt;compiled_source&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span style=""&gt;&amp;#x000A;          ensure&amp;#x000A;            self.output_buffer = old_output_buffer&amp;#x000A;          end&lt;/span&gt;&lt;span style="color:#710"&gt;&amp;#x000A;        end_src&lt;/span&gt;&lt;/span&gt;&amp;#x000A;&amp;#x000A;        &lt;span style="color:#888"&gt;# workaround&lt;/span&gt;&amp;#x000A;        source.force_encoding(&lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;'&lt;/span&gt;&lt;span style=""&gt;utf-8&lt;/span&gt;&lt;span style="color:#710"&gt;'&lt;/span&gt;&lt;/span&gt;) &lt;span style="color:#080;font-weight:bold"&gt;if&lt;/span&gt; &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;'&lt;/span&gt;&lt;span style=""&gt;1.9&lt;/span&gt;&lt;span style="color:#710"&gt;'&lt;/span&gt;&lt;/span&gt;.respond_to?(&lt;span style="color:#A60"&gt;:force_encoding&lt;/span&gt;)&amp;#x000A;&amp;#x000A;        &lt;span style="color:#080;font-weight:bold"&gt;begin&lt;/span&gt;&amp;#x000A;          &lt;span style="color:#036;font-weight:bold"&gt;ActionView&lt;/span&gt;::&lt;span style="color:#036;font-weight:bold"&gt;Base&lt;/span&gt;::&lt;span style="color:#036;font-weight:bold"&gt;CompiledTemplates&lt;/span&gt;.module_eval(source, filename, &lt;span style="color:#00D;font-weight:bold"&gt;0&lt;/span&gt;)&amp;#x000A;        &lt;span style="color:#080;font-weight:bold"&gt;rescue&lt;/span&gt; &lt;span style="color:#036;font-weight:bold"&gt;Errno&lt;/span&gt;::&lt;span style="color:#036;font-weight:bold"&gt;ENOENT&lt;/span&gt; =&amp;gt; e&amp;#x000A;          raise e &lt;span style="color:#888"&gt;# Missing template file, re-raise for Base to rescue&lt;/span&gt;&amp;#x000A;        &lt;span style="color:#080;font-weight:bold"&gt;rescue&lt;/span&gt; &lt;span style="color:#036;font-weight:bold"&gt;Exception&lt;/span&gt; =&amp;gt; e &lt;span style="color:#888"&gt;# errors from template code&lt;/span&gt;&amp;#x000A;          &lt;span style="color:#080;font-weight:bold"&gt;if&lt;/span&gt; logger = &lt;span style="color:#080;font-weight:bold"&gt;defined?&lt;/span&gt;(&lt;span style="color:#036;font-weight:bold"&gt;ActionController&lt;/span&gt;) &amp;amp;&amp;amp; &lt;span style="color:#036;font-weight:bold"&gt;Base&lt;/span&gt;.logger&amp;#x000A;            logger.debug &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;span style=""&gt;ERROR: compiling &lt;/span&gt;&lt;span style="background:#ddd;color:black"&gt;&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;#{&lt;/span&gt;render_symbol&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span style=""&gt; RAISED &lt;/span&gt;&lt;span style="background:#ddd;color:black"&gt;&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;#{&lt;/span&gt;e&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&amp;#x000A;            logger.debug &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;span style=""&gt;Function body: &lt;/span&gt;&lt;span style="background:#ddd;color:black"&gt;&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;#{&lt;/span&gt;source&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&amp;#x000A;            logger.debug &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;span style=""&gt;Backtrace: &lt;/span&gt;&lt;span style="background:#ddd;color:black"&gt;&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;#{&lt;/span&gt;e.backtrace.join(&lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;span style="color:#b0b"&gt;\n&lt;/span&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)&lt;span style="background:#ddd;font-weight:bold;color:#666"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&amp;#x000A;          &lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;&amp;#x000A;          raise &lt;span style="color:#036;font-weight:bold"&gt;ActionView&lt;/span&gt;::&lt;span style="color:#036;font-weight:bold"&gt;TemplateError&lt;/span&gt;.new(&lt;span style="color:#038;font-weight:bold"&gt;self&lt;/span&gt;, {}, e)&amp;#x000A;        &lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;      &lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;  &lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;&lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;Forzar encoding al leer un archivos (antes de que se abra el log de Rails)&lt;/h2&gt;
+&lt;p&gt;Hay que cambiarle el default a Rails para que abra en UTF8 el log.&lt;/p&gt;
+&lt;div class="CodeRay"&gt;
+  &lt;div class="code"&gt;&lt;pre&gt;RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION&amp;#x000A;Encoding.default_external = 'UTF-8' if defined? __ENCODING__&amp;#x000A;require File.join(File.dirname(__FILE__), 'boot')&amp;#x000A;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;RVM, Passenger...&lt;/h2&gt;
+&lt;p&gt;Por &amp;uacute;ltimo, y solo si usan RVM y Passenger, y bajo algunas circunstancias, tiene que agregarle al archivo $HOME/.rvm/bin/passenger_ruby la menci&amp;oacute;n directa del encoding de la siguiente forma:&lt;/p&gt;
+&lt;code&gt;LC_TYPE=en_US.UTF-8;
+export LC_TYPE
+LANG=LC_TYPE;
+export LANG
+exec "/Users/lucasefe/.rvm/ruby-1.9.1-p376/bin/ruby" "$@ -KU"&lt;/code&gt;
+&lt;h2&gt;Referencias y Recursos&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;a href="http://akitaonrails.com/2010/01/04/fixes-para-ruby-1-9-rails-2-3-x-e-unicode"&gt;Fixes para Ruby 1.9, Rails 2.3.x e Unicode&lt;/a&gt;
+    Hay que leer un poco de portugu&amp;eacute;s.
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://blog.grayproductions.net/articles/understanding_m17n"&gt;Understanding M17n&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Ruby Programming 3rd. edition&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://rvm.beginrescueend.com/"&gt;RVM&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;a href="http://gist.github.com/323648"&gt;GIST1&lt;/a&gt;
+    y
+    &lt;a href="http://gist.github.com/271196"&gt;GIST2&lt;/a&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Seguro que me olvido de algo...&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>TED - Ideas worth spreading</title>
+   <link href="http://henrik.nyh.se/2010/02/16/ted-ideas-worth-spreading"/>
+   <updated>2010-02-16T00:00:00-03:00</updated>
+   <id>http://henrik.nyh.se/2010/02/16/ted-ideas-worth-spreading</id>
+   <content type="html">&lt;p&gt;
+  Un compa&amp;ntilde;ero de laburo me pas&amp;oacute; el link de este sitio,
+  &lt;a href="http://www.ted.com/"&gt;TED&lt;/a&gt;
+  . El sitio contiene un mont&amp;oacute;n de videos interesantes, sobre ideas que valen la pena, o que al menos te hacen pensar, que te mueven algo. A veces, despu&amp;eacute;s de tato libro t&amp;eacute;cnico, de tanto video de conferencia de Ruby, de tanta cosa fr&amp;iacute;a, lo que uno necesita es algo que te movilice, que te haga pensar m&amp;aacute;s all&amp;aacute; de tu propia quintita.
+&lt;/p&gt;
+&lt;h2&gt;Destacados (hasta ahora)&lt;/h2&gt;
+&lt;p&gt;Por ahora, de las charlas que pude ver, estas son mis recomendaciones.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;a href="http://www.ted.com/talks/eve_ensler_embrace_your_inner_girl.html"&gt;Eve Ensler: Embrace your inner girl&lt;/a&gt;
+    (aguantarlo hasta el final, que vale la pena).
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;a href="http://www.ted.com/talks/blaise_aguera.html"&gt;Blaise Aguera y Arcas demos augmented-reality maps&lt;/a&gt;
+    (zarpado)
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;a href="http://www.ted.com/talks/lang/eng/dan_buettner_how_to_live_to_be_100.html"&gt;Dan Buettner: How to live to be 100+&lt;/a&gt;
+    (creo que sali&amp;oacute; algo de esto en un Radar de hace unos meses, pero me gust&amp;oacute; mucho).
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;a href="http://www.ted.com/talks/lang/eng/charles_fleischer_insists_all_things_are_moleeds.html"&gt;Charles Fleischer insists: All things are Moleeds&lt;/a&gt;
+    (loqu&amp;iacute;simo)
+  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ah, me olvidaba. Son cortitos, de no m&amp;aacute;s de 20 minutos, as&amp;iacute; sin darte cuenta pod&amp;eacute;s ver un mont&amp;oacute;n en muy poco tiempo.&lt;/p&gt;
+&lt;p&gt;Espero que lo puedan disfrutar... a mi me encant&amp;oacute;, y eso que solo habr&amp;eacute; visto unos 10 de ellos.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Kit b&aacute;sico de librer&iacute;as 2009</title>
+   <link href="http://henrik.nyh.se/2009/12/13/kit-basico-de-librerias-2009"/>
+   <updated>2009-12-13T00:00:00-03:00</updated>
+   <id>http://henrik.nyh.se/2009/12/13/kit-basico-de-librerias-2009</id>
+   <content type="html">&lt;p&gt;Se va el 2009 y no puedo evitar terminar conun obvio post acerca de las librer&amp;iacute;as que estuve usando durante este a&amp;ntilde;o para desarrollar aplicaciones Rails. Us&amp;eacute; un mont&amp;oacute;n m&amp;aacute;s, pero estos son los m&amp;aacute;s memorables de este a&amp;ntilde;o.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="http://rest-client.heroku.com/rdoc/"&gt;RestClient&lt;/a&gt; : Buen&amp;iacute;simo cliente de APIs REST. Muy f&amp;aacute;cil de usar. ActiveResource apesta.&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://github.com/josevalim/inherited_resources/"&gt;Inherited Resources&lt;/a&gt; : Antes usaba ResourceController, pero se qued&amp;oacute; en el tiempo e inclusive dir&amp;iacute;a que me acostumbr&amp;oacute; a resolver los problem&amp;aacute;s (quiz&amp;aacute;s) no de la manera m&amp;aacute;s elegante. Opt&amp;eacute; por esta porque me parece su sucesora obvia. mejora much&amp;iacute;simo y no resta funcionalidades.&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://github.com/thoughtbot/factory_girl"&gt;Factory Girl&lt;/a&gt; : como factory de objetos en testing o en la consola de Rails (super &amp;uacute;til para hacer pruebas r&amp;aacute;pidas).&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://faker.rubyforge.org/"&gt;Faker&lt;/a&gt; : Generaci&amp;oacute;n interminable de palabras, nombres, emails, urls, y mucho m&amp;aacute;s, perfecto para testing, d&amp;oacute;nde todo eso es importante, pero hasta ah&amp;iacute;. Me pregunto, para cuando un faker en castellano, che?&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://onehackoranother.com/projects/jquery/boxy/"&gt;Boxy&lt;/a&gt; : para generar ventanas como las de Facebook. Es un plugin &lt;a href="http://www.jquery.com"&gt;jQuery&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://github.com/thoughtbot/paperclip"&gt;Paperclip&lt;/a&gt; : S&amp;uacute;per bobo manejo de uploads.&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://github.com/justinfrench/formtastic"&gt;Formtastic&lt;/a&gt; : Antes usaba mi propio formbuilder que durante mucho tiempo fue m&amp;aacute;s que suficiente. Hoy en d&amp;iacute;a ya no tiene sentido seguir reinventando la rueda. Formtastic te permite salir andando con cero esfuerzo. Genera formularios HTML sem&amp;aacute;nticamente correctos. No sobreescribe ninguno de los m&amp;eacute;todos standard de Rails, as&amp;iacute;que se puede comenzar a usar de a poco.&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://haml-lang.com/"&gt;Haml&lt;/a&gt; &amp; &lt;a href="http://sass-lang.com/"&gt;Sass&lt;/a&gt;: No voy a explicar esto. Son dos librer&amp;iacute;as indispensables cualquier proyecto que comience.&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://github.com/norman/friendly_id/"&gt;Friendly Id&lt;/a&gt;  : Permalink Fu se va, entra Friendly Id! Si, admito que llegu&amp;eacute; tarde, pero qu&amp;eacute; linda librer&amp;iacute;a. Se integra con Rails se una manera que es admirable. Gran trabajo.&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://github.com/binarylogic/searchlogic"&gt;Searchlogic&lt;/a&gt; Zarpado abusador de los name scopes de ActiveRecord. Una soluci&amp;oacute;n elegante para las b&amp;uacute;squedas simples de tu pr&amp;oacute;xima aplicaci&amp;oacute;n.&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://stonean.com/page/lockdown"&gt;Lockdown&lt;/a&gt; : Uff, para seguridad basada en roles, mi favorito.&lt;/li&gt;
+  &lt;li&gt;&lt;a href="http://github.com/javan/whenever"&gt;Whenever&lt;/a&gt; : Ejecuci&amp;oacute;n programada de lo que se te cante.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;En fin, aqu&amp;iacute; est&amp;aacute;n, estos son, los "pluguines" de Flori&amp;oacute;.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Justo al Caer en Vicente L&oacute;pez</title>
+   <link href="http://henrik.nyh.se/2009/12/06/justo-al-caer-en-vicente-lopez"/>
+   <updated>2009-12-06T00:00:00-03:00</updated>
+   <id>http://henrik.nyh.se/2009/12/06/justo-al-caer-en-vicente-lopez</id>
+   <content type="html">&lt;p&gt;Despu&amp;eacute;s de laburar mucho este a&amp;oacute;o, logramos (con mi banda &lt;a href="http://www.justoalcaer.com.ar/"&gt;Justo al Caer&lt;/a&gt;) arrancar con las &lt;a href="/2009/11/4/justo-al-caer-en-kronopios.html"&gt;presentaciones&lt;/a&gt; en vivo. Un paso importante para un grupo de enfermos perfeccionistas que no est&amp;aacute;n listos nunca.&lt;/p&gt;
+&lt;p&gt;Asi que, para ir cerrando el a&amp;oacute;o 2009, nos vamos a presentar en el Paseo de la Costa (Vicente L&amp;oacute;pez) junto a "Dikumda":http://dikumda.com. Lo copado de esto es que es al aire libre, y a la hora en que cae el sol, as&amp;iacute; que si alguno tiene ganas, es solo cuesti&amp;oacute;n de arrimarse con un termo de alguna infusi&amp;oacute;n copada (por si no queda claro, la entrada es gratuita).&lt;/p&gt;
+&lt;p&gt;Fecha: S&amp;aacute;bado 24 de Diciembre de 2009&lt;/p&gt;
+&lt;p&gt;Lugar: Urquiza y el Rio. Cuando se acerque la fecha un poco m&amp;aacute;s actualizar&amp;eacute; con mayores certezas,&lt;/p&gt;
+&lt;p&gt;Hora: Aproximadamente a las 17hs.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.justoalcaer.com.ar/"&gt;Justo al Caer&lt;/a&gt;&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Justo al Caer en Kronopios</title>
+   <link href="http://henrik.nyh.se/2009/11/04/justo-al-caer-en-kronopios"/>
+   <updated>2009-11-04T00:00:00-03:00</updated>
+   <id>http://henrik.nyh.se/2009/11/04/justo-al-caer-en-kronopios</id>
+   <content type="html">&lt;p&gt;El jueves 12 de Noviembre nos presentamos en Kronopios.&lt;/p&gt;
+&lt;img src="/images/20091112_-_Kronopios.v3.jpeg" /&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Faith No More en el Pepsi 2009</title>
+   <link href="http://henrik.nyh.se/2009/11/02/faith-no-more-en-el-pepsi-2009"/>
+   <updated>2009-11-02T00:00:00-03:00</updated>
+   <id>http://henrik.nyh.se/2009/11/02/faith-no-more-en-el-pepsi-2009</id>
+   <content type="html">&lt;p&gt;
+  &lt;strong&gt;Disclaimer:&lt;/strong&gt;
+  Este review es una mentira total. Carente de objetividad, y empapada de fanatismo en todo su esplendor luego de un show que pag&amp;oacute; cada mango de la entrada.
+&lt;/p&gt;
+&lt;p&gt;Lo vi de cerca, aunque no tanto. No era el VIP (gran dormida la m&amp;iacute;a), pero estaba muy bien parado.&lt;/p&gt;
+&lt;p&gt;La lista de temas me pareci&amp;oacute; impecable. Hubieron hits y no tanto. Recorrieron 5 discos, y no dejaron t&amp;iacute;teres sin cabezas. Abrieron con un tema no conocido por mi que asumo se llamaba United, haciendo alusi&amp;oacute;n a su juntada actual y luego tocaron From Out Of Nowhere. De ah&amp;iacute; en m&amp;aacute;s solo hubo magia. Easy, Epic, Stripsearch, Last Cup Of Sorrow, Ashes to Ashes, Land of sunshine, Caffeine, MIdlife Crisis, A small victory, I started a joke, Evidence, King for a day (si, groso es poco), Surprise! You're Dead!, We care a lot y alguno m&amp;aacute;s que seguro se me olvida. El orden plasmado aqu&amp;iacute; no representa el del show, pero es lo que me acuerdo luego de no se cuantos pogos inolvidables.&lt;/p&gt;
+&lt;p&gt;El bis fue con Collision y Digging the grave (no me acuerdo posta posta, pero me la juego).&lt;/p&gt;
+&lt;p&gt;Confieso que luego del bis ya no pod&amp;iacute;a m&amp;aacute;s. Salt&amp;eacute; y grit&amp;eacute; en demas&amp;iacute;a durante el inicio y luego, cuando ellos se fueron a tomar un descanso, yo ya estaba en low-battery. Por suerte pude encontrar un lugar con onda, con gente que le puso la mejor. No vi afanos esta vez, lo cual no se de qui&amp;eacute;n habla bien, pero fue copado no tener que estar pensando en el manoteo.&lt;/p&gt;
+&lt;p&gt;En definiiva: Mucho rock, muchos huevos. Un Patton que no decepcion&amp;oacute; nunca (excepto cuando sali&amp;oacute; con la remera de Argentina, no era necesario). El registro, y su incapacidad de hacerse mierda la voz,  no dejaron de asombrarme. Ten&amp;iacute;a una maquinita de efectos al lado, pero pude detectar cu&amp;aacute;ndo la usaba.&lt;/p&gt;
+&lt;p&gt;La banda son&amp;oacute; como ten&amp;iacute;a que sonar: Compacta, contundente... una banda de viejos profesionales. Sorprendentes las canas de Bordin.&lt;/p&gt;
+&lt;p&gt;Lo que s&amp;iacute; no entiendo es quien arma las fechas para estos eventos: Die Toten Hosen luego de FNM? A qui&amp;eacute;n se le ocurre? La mitad del estadio se fue al finalizar la presentaci&amp;oacute;n de este &amp;uacute;ltimo. S&amp;eacute; que los alemanes le ponen onda y huevos, pero luego de un show debastador como el de los pibes, poco quedaba para jugar con Campino &amp; Co.&lt;/p&gt;
+&lt;p&gt;Este show queda en el segundo lugar, peleando con Radiohead en mi lista de shows inolvidables. Primero, obvio, PJ.&lt;/p&gt;
+&lt;p&gt;Ustedes me dir&amp;aacute;n del show de Chris Cornell... pero me chupa un huevo. Lo de ayer fue memorable.&lt;/p&gt;
+&lt;p&gt;
+  &lt;strong&gt;Actualizaci&amp;oacute;n:&lt;/strong&gt;
+  Esta es la lista completa de temas.
+&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Reunited (Peaches &amp; Herb)&lt;/li&gt;
+  &lt;li&gt;From Out of Nowhere&lt;/li&gt;
+  &lt;li&gt;Land of Sunshine&lt;/li&gt;
+  &lt;li&gt;Caffeine&lt;/li&gt;
+  &lt;li&gt;Evidence&lt;/li&gt;
+  &lt;li&gt;Surprise! You're Dead!&lt;/li&gt;
+  &lt;li&gt;Last Cup of Sorrow&lt;/li&gt;
+  &lt;li&gt;Ricochet&lt;/li&gt;
+  &lt;li&gt;Easy (The Commodores)&lt;/li&gt;
+  &lt;li&gt;Epic&lt;/li&gt;
+  &lt;li&gt;Midlife Crisis&lt;/li&gt;
+  &lt;li&gt;I Started a Joke (Bee Gees)&lt;/li&gt;
+  &lt;li&gt;The Gentle Art of Making Enemies&lt;/li&gt;
+  &lt;li&gt;King for a Day&lt;/li&gt;
+  &lt;li&gt;A Small Victory&lt;/li&gt;
+  &lt;li&gt;Ashes to Ashes&lt;/li&gt;
+  &lt;li&gt;We Care a Lot&lt;/li&gt;
+&lt;/ul&gt;
+Bis:
+&lt;ul&gt;
+  &lt;li&gt;The Popcorn Song / Scarface Theme / Collision&lt;/li&gt;
+  &lt;li&gt;Digging the Grave&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Encuesta sobre Ruby en Argentina usando Google Forms</title>
+   <link href="http://henrik.nyh.se/2009/09/22/encuesta-sobre-ruby-argentina"/>
+   <updated>2009-09-22T00:00:00-03:00</updated>
+   <id>http://henrik.nyh.se/2009/09/22/encuesta-sobre-ruby-argentina</id>
+   <content type="html">&lt;p&gt;
+  Hace unas semanas, usando &lt;a href="http://docs.google.com"&gt;Google Forms&lt;/a&gt;, cre&amp;eacute; una encuesta que intentaba responder ciertas preguntas b&amp;aacute;sicas respecto a &lt;a href="http://www.rubyargentina.com.ar/"&gt;nuestra comunidad&lt;/a&gt;. La idea era entender un poco mejor quienes eramos y qu&amp;eacute; quer&amp;iacute;amos. En un tiro la cre&amp;eacute;, y pas&amp;eacute; a anunciarla en la &lt;a href="http://rubyargentina.soveran.com/signup"&gt;Lista de Correo de Ruby Argentina&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;El resultado de la misma se encuetra publicado aqu&amp;iacute;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="http://www.lucasefe.com.ar/encuesta-0.1.html"&gt;Encuesta v0.1&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A la semana siguiente, tomando un poco del feedback que me hab&amp;iacute;an pasado, constru&amp;iacute; de la misma forma la versi&amp;oacute;n 0.2. Esta inclu&amp;iacute;a un mont&amp;oacute;n de preguntas extra referidas a carga horaria, salario y expectativas, adem&amp;aacute;s de uno que otro dato regional. Los resultados fueron interesantes, pero comet&amp;iacute; varios errores (por calent&amp;oacute;n) con respecto a Google Forms.&lt;/p&gt;
+&lt;p&gt;Google Forms (GF) est&amp;aacute; muy bien c&amp;oacute;mo herramienta r&amp;aacute;pida de contrucci&amp;oacute;n de formularios, pero no te permite modificar, o vaciar el form de una manera simple. Hay que tener muy claro el tipo de respuesta que se espera de cada pregunta, como para que el resultado sea representativo.&lt;/p&gt;
+&lt;p&gt;Ejemplo: GF te genera gr&amp;aacute;ficas autom&amp;aacute;ticamente de cada un de las preguntas, pero solo si *no* se trata de preguntas de texto libre. Bien, yo comet&amp;iacute; el error de preguntar el salario de esa forma, as&amp;iacute; que la gr&amp;aacute;fica que se gener&amp;oacute; inicialmente no serv&amp;iacute;a de nada (4500$ 900U$$ ... ). Lo mismo me sucedi&amp;oacute; con las ciudades de origen. Finalmente lo pude corregir, pero hacerlo fue un parto.&lt;/p&gt;
+&lt;p&gt;Ah, los resultados de la segunda encuesta se encuentran aqu&amp;iacute;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="http://www.lucasefe.com.ar/encuesta-0.2.html"&gt;Encuesta v0.2&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Espero que les sirva y provea de informaci&amp;oacute;n &amp;uacute;til para hacer crecer a Ruby en Argentina.&lt;/p&gt;
+&lt;p&gt;Y recuerden: Si usan Google Forms, verifiquen una y mil veces con casos de prueba si est&amp;aacute;n obteniendo el resultado gr&amp;aacute;fico que esperaban.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Bandas en el Bord&oacute;</title>
+   <link href="http://henrik.nyh.se/2009/08/16/bandas-en-el-bord"/>
+   <updated>2009-08-16T00:00:00-03:00</updated>
+   <id>http://henrik.nyh.se/2009/08/16/bandas-en-el-bord</id>
+   <content type="html">&lt;p&gt;El viernes pasado fui a ver dos muy buenas bandas que no dudo en recomendar...&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Ubika (http://myspace.com/ub1ka)&lt;/li&gt;
+  &lt;li&gt;Decime Si Se Puede (http://www.myspace.com/decimesisepuede)&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Finalmente, Justo al Caer tiene website</title>
+   <link href="http://henrik.nyh.se/2009/07/25/finalmente-justo-al-caer-tiene-website"/>
+   <updated>2009-07-25T00:00:00-03:00</updated>
+   <id>http://henrik.nyh.se/2009/07/25/finalmente-justo-al-caer-tiene-website</id>
+   <content type="html">&lt;p&gt;Luego de mucho laburo, muchos idas y vueltas, logramos hacer un sitio para mi querido proyecto musical, &lt;a href="http://www.justoalcaer.com.ar/"&gt;Justo al Caer&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;All&amp;iacute; podr&amp;aacute;n conocer un poco de lo que hago cuando no soy programador Ruby, podr&amp;aacute;n ver fotos, leer sobre nuestros origenes y lo m&amp;aacute;s importante, escuchar un poco de lo que hacemos.&lt;/p&gt;
+&lt;p&gt;Debo confezar que es un placer terminar una etapa, aunque me d&amp;eacute; v&amp;eacute;rtigo iniciar una nueva. A tocar se ha dicho...&lt;/p&gt;
+&lt;p&gt;As&amp;iacute; que: &lt;a href="http://www.justoalcaer.com.ar/"&gt;Justo al Caer Website&lt;/a&gt;.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Link - Autotest + Growl</title>
+   <link href="http://henrik.nyh.se/2009/05/21/link-autotest-growl"/>
+   <updated>2009-05-21T00:00:00-03:00</updated>
+   <id>http://henrik.nyh.se/2009/05/21/link-autotest-growl</id>
+   <content type="html">&lt;ul&gt;
+  &lt;li&gt;Soluci&amp;oacute;n servida en bandeja para &lt;a href="http://leanucci.com.ar/2009/03/autotestautospec-growl.html"&gt;Autotest+Growl&lt;/a&gt; por nuestro compa&amp;oacute;ero de rubylandia Leandro Marcucci.&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Debt</title>
+   <link href="http://henrik.nyh.se/2009/05/06/debt"/>
+   <updated>2009-05-06T00:00:00-03:00</updated>
+   <id>http://henrik.nyh.se/2009/05/06/debt</id>
+   <content type="html">&lt;p&gt;Ayer hablaba con un compa&amp;oacute;ero de trabajo. Me cont&amp;oacute; de sus viajes y sus desiciones laborales m&amp;aacute;s que acertadas. Charlamos durante el almuerzo muy distentidamente, y yo le coment&amp;eacute; que me costaba dejar los laburos siempre, por ese sentimiento de attachment. Digamos, de deuda impaga. Le dije que me sorprend&amp;iacute;a c&amp;oacute;mo manejaba &amp;eacute;l eso. A &amp;eacute;l no le pasa eso... Admirable. Esa cosa de El Deber.&lt;/p&gt;
+&lt;p&gt;Volvimos al trabajo y labur&amp;eacute;, bien, como siempre, robot-man... pero me fui con un no se qu&amp;eacute; atravezado en la garganta. Sent&amp;iacute;a ese freno que te parte, la rutina insoportable. Corriendo una carrera que no es tal. La fucking zanahoria. Esa cosa de lo que hay que hacer, what we must conquer, the things we need to acomplish "to fulfill our destiny..." (como dice tu fono). La vida tiene que ser m&amp;aacute;s simple... realmente.&lt;/p&gt;
+&lt;p&gt;Si fuera por mi sab&amp;eacute;s que har&amp;iacute;a? Y antes de contestar pienso: Y si no es por mi, por qui&amp;eacute;n es? Ah&amp;iacute; est&amp;aacute; la cuesti&amp;oacute;n... Fuck... (Me odio a veces... &amp;iquest;Qu&amp;eacute; hago ahora con esa mierda que escuch&amp;eacute;?). Cu&amp;aacute;nto estamos realmente haciendo por nosotros? No ser&amp;aacute; que siempre estamos luchando por el amor del Otro? De eso se trata? Uno "es" quien cree que es en funci&amp;oacute;n del Otro? Qu&amp;eacute; ser&amp;aacute; de nosotros sin la existencia del Otro? Me asesina esa prisi&amp;oacute;n, y a la vez, esa celda es tambi&amp;eacute;n un lugar seguro, de certeza.&lt;/p&gt;
+&lt;p&gt;Si, hoy a la tarde me tomo una pastilla para no pensar... as&amp;iacute; me puedo transformar en un robotito tonto que sigue un destino que no entiende...&lt;/p&gt;
+&lt;p&gt;Sent.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Remarkable</title>
+   <link href="http://henrik.nyh.se/2009/04/22/remarkable"/>
+   <updated>2009-04-22T00:00:00-03:00</updated>
+   <id>http://henrik.nyh.se/2009/04/22/remarkable</id>
+   <content type="html">&lt;p&gt;Rspec es genial. Out-of-the-box te provee unos "meta-matchers" bastante piolas. Si ten&amp;eacute;s un m&amp;eacute;todo que retorne un boolean y termine en ? pod&amp;eacute;s preguntar algo como esto:&lt;/p&gt;
+&lt;div class="CodeRay"&gt;
+  &lt;div class="code"&gt;&lt;pre&gt;describe &lt;span style="color:#036;font-weight:bold"&gt;User&lt;/span&gt; &lt;span style="color:#080;font-weight:bold"&gt;do&lt;/span&gt;&amp;#x000A;  &lt;span style="color:#888"&gt;# suponiendo que @user responde a admin?&lt;/span&gt;&amp;#x000A;  subject { &lt;span style="color:#036;font-weight:bold"&gt;User&lt;/span&gt;.new }&amp;#x000A;  it { should be_admin } &amp;#x000A;&lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;
+  S&amp;uacute;per copado, pero nada nuevo. Claro, cuando te empez&amp;aacute;s a meter un poco m&amp;aacute;s, descubr&amp;iacute;s que muchas de los matchers que us&amp;aacute;s siempre, alguien ya las "meti&amp;oacute;" en un m&amp;oacute;dulo y las puso disponibles para todos. Dos ejemplos de ello son &lt;a href="http://github.com/joshknowles/rspec-on-rails-matchers/tree/master"&gt;rspec_on_rails_matchers&lt;/a&gt; (buen inicio, pero se qued&amp;oacute; en el tiempo) y &lt;a href="http://thoughtbot.com/projects/shoulda/"&gt;shoulda&lt;/a&gt; (que es excelente).
+&lt;/p&gt;
+&lt;p&gt;
+  La cuesti&amp;oacute;n es que despu&amp;eacute;s de usar shoulda una semana, di con &lt;a href="http://remarkable.rubyforge.org/"&gt;Remarkable&lt;/a&gt; (luego de escuchar, creo, a los pibes de &lt;a href="http://www.railsenvy.com"&gt;RailsEnvy&lt;/a&gt; .
+&lt;/p&gt;
+&lt;p&gt;
+  Remarkable es una gema que incluye espectations y matchers para usar dentro y fuera de rails. La lista es interminable, pero voy a hacer un mini-raconto de lo que estuve usando esta semana (con un supuesto modelo User):
+&lt;/p&gt;
+&lt;div class="CodeRay"&gt;
+  &lt;div class="code"&gt;&lt;pre&gt;describe &lt;span style="color:#036;font-weight:bold"&gt;User&lt;/span&gt;&amp;#x000A;  subject { &lt;span style="color:#036;font-weight:bold"&gt;Factory&lt;/span&gt;.build(&lt;span style="color:#A60"&gt;:user&lt;/span&gt;) }&amp;#x000A;  it { should validate_presence_of(&lt;span style="color:#A60"&gt;:first_name&lt;/span&gt;) }&amp;#x000A;  it { should validate_presence_of(&lt;span style="color:#A60"&gt;:last_name&lt;/span&gt;) }&amp;#x000A;  it { should have_many(&lt;span style="color:#A60"&gt;:posts&lt;/span&gt;) }&amp;#x000A;&lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;&amp;#x000A;describe &lt;span style="color:#036;font-weight:bold"&gt;Post&lt;/span&gt;&amp;#x000A;  subject { &lt;span style="color:#036;font-weight:bold"&gt;Factory&lt;/span&gt;.build(&lt;span style="color:#A60"&gt;:post&lt;/span&gt;) }&amp;#x000A;  &lt;span style="color:#888"&gt;# Db matchers&lt;/span&gt;&amp;#x000A;  it { should have_columns(&lt;span style="color:#A60"&gt;:title&lt;/span&gt;, &lt;span style="color:#A60"&gt;:body&lt;/span&gt;, &lt;span style="color:#A60"&gt;:permalink&lt;/span&gt;)}&amp;#x000A;  it { should have_index([&lt;span style="color:#A60"&gt;:title&lt;/span&gt;]).unique(&lt;span style="color:#038;font-weight:bold"&gt;true&lt;/span&gt;) &amp;#x000A;&amp;#x000A;  &lt;span style="color:#888"&gt;# Validaciones Active Record&lt;/span&gt;&amp;#x000A;  it { should validate_presence_of(&lt;span style="color:#A60"&gt;:title&lt;/span&gt;) }&amp;#x000A;  it { should validate_uniqueness_of(&lt;span style="color:#A60"&gt;:title&lt;/span&gt;, &lt;span style="color:#A60"&gt;:scope&lt;/span&gt; =&amp;gt; &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;'&lt;/span&gt;&lt;span style=""&gt;topic&lt;/span&gt;&lt;span style="color:#710"&gt;'&lt;/span&gt;&lt;/span&gt;) }&amp;#x000A;  it { should validate_uniqueness_of &lt;span style="color:#A60"&gt;:title&lt;/span&gt;, &lt;span style="color:#A60"&gt;:allow_blank&lt;/span&gt; =&amp;gt; &lt;span style="color:#038;font-weight:bold"&gt;true&lt;/span&gt;} &amp;#x000A;&amp;#x000A;  &lt;span style="color:#888"&gt;# Relaciones &lt;/span&gt;&amp;#x000A;  &lt;span style="color:#888"&gt;# se verificar&amp;amp;aacute; que el counter cache se incluya como opci&amp;amp;oacute;n y &lt;/span&gt;&amp;#x000A;  &lt;span style="color:#888"&gt;# que el campo est&amp;amp;eacute; definido en la DB. &lt;/span&gt;&amp;#x000A;  &lt;span style="color:#888"&gt;# No hay una en que no me olvide de esto. &lt;/span&gt;&amp;#x000A;  it { should belong_to(&lt;span style="color:#A60"&gt;:topic&lt;/span&gt;, &lt;span style="color:#A60"&gt;:counter_cache&lt;/span&gt; =&amp;gt; &lt;span style="color:#038;font-weight:bold"&gt;true&lt;/span&gt;) }&amp;#x000A;  it { should belong_to(&lt;span style="color:#A60"&gt;:user&lt;/span&gt;, &lt;span style="color:#A60"&gt;:counter_cache&lt;/span&gt; =&amp;gt; &lt;span style="color:#038;font-weight:bold"&gt;true&lt;/span&gt;) } &amp;#x000A;  &lt;span style="color:#888"&gt;# se verificar&amp;amp;aacute; que se incluya el :through como opci&amp;amp;oacute;n &lt;/span&gt;&amp;#x000A;  &lt;span style="color:#888"&gt;# adem&amp;amp;aacute;s de que exista la relaci&amp;amp;oacute;n.&lt;/span&gt;&amp;#x000A;  it { should have_many(&lt;span style="color:#A60"&gt;:comments&lt;/span&gt;) }&amp;#x000A;  it { should have_many(&lt;span style="color:#A60"&gt;:viewers&lt;/span&gt;, &lt;span style="color:#A60"&gt;:through&lt;/span&gt; =&amp;gt; &lt;span style="color:#A60"&gt;:comments&lt;/span&gt;) }&amp;#x000A;&amp;#x000A;  &lt;span style="color:#888"&gt;# named scopes&lt;/span&gt;&amp;#x000A;  it { should have_scope(&lt;span style="color:#A60"&gt;:published&lt;/span&gt;).conditions(&lt;span style="color:#A60"&gt;:published&lt;/span&gt; =&amp;gt; &lt;span style="color:#038;font-weight:bold"&gt;true&lt;/span&gt;) }&amp;#x000A;&amp;#x000A;  &lt;span style="color:#888"&gt;# acepta colecciones c&amp;amp;oacute;mo par&amp;amp;aacute;metros&lt;/span&gt;&amp;#x000A;  it { should allow_mass_assignment_of(&lt;span style="color:#A60"&gt;:title&lt;/span&gt;, &lt;span style="color:#A60"&gt;:body&lt;/span&gt;, &lt;span style="color:#A60"&gt;:tags&lt;/span&gt;, &lt;span style="color:#A60"&gt;:permalink&lt;/span&gt;) }&amp;#x000A;&lt;span style="color:#080;font-weight:bold"&gt;end&lt;/span&gt;&amp;#x000A;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Adem&amp;aacute;s de esto, podemos integrarlo con I18n y generar los specs en castellano, u otro idioma. Funciona exactamente igual que Rails, ya que usa la misma gema (svenfuchs-i18n). O sea, nuestro cliente no tiene que saber ingl&amp;eacute;s para entender nuestros specs. Esto, por lo menos para mi, es oro puro.&lt;/p&gt;
+&lt;p&gt;Como si esto fuera poco, adem&amp;aacute;s provee un forma de crear matchers muy f&amp;aacute;cilmente (un mini DSL), &lt;a href="http://remarkable.rubyforge.org/core/"&gt;sin reinventar la rueda&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;En el ejemplo yo solo habl&amp;eacute; de la parte de Active Record, pero tambi&amp;eacute;n incluye un mont&amp;oacute;n de matchers para el ActionController y pr&amp;oacute;ximamente para ActionView tambi&amp;eacute;n (&lt;a href="http://remarkable.rubyforge.org/rails"&gt;Ac&amp;aacute;&lt;/a&gt;).&lt;/p&gt;
+&lt;h2&gt;Instalaci&amp;oacute;n&lt;/h2&gt;
+sudo gem install remarkable_rails
+&lt;p&gt;En Rails 2.3, para que Remarkable se cargue correctamente hay que incluir lo siguiente en config/environments/test.rb&lt;/p&gt;
+&lt;div class="CodeRay"&gt;
+  &lt;div class="code"&gt;&lt;pre&gt;config.gem &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;span style=""&gt;rspec&lt;/span&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;,            &lt;span style="color:#A60"&gt;:lib&lt;/span&gt; =&amp;gt; &lt;span style="color:#038;font-weight:bold"&gt;false&lt;/span&gt;&amp;#x000A;config.gem &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;span style=""&gt;rspec-rails&lt;/span&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;,      &lt;span style="color:#A60"&gt;:lib&lt;/span&gt; =&amp;gt; &lt;span style="color:#038;font-weight:bold"&gt;false&lt;/span&gt;&amp;#x000A;config.gem &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;span style=""&gt;remarkable_rails&lt;/span&gt;&lt;span style="color:#710"&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;, &lt;span style="color:#A60"&gt;:lib&lt;/span&gt; =&amp;gt; &lt;span style="color:#038;font-weight:bold"&gt;false&lt;/span&gt;&amp;#x000A;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Y despu&amp;eacute;s requerir remarkable dentro de spec_helper.rb, justo despu&amp;eacute;s de "spec/rails":&lt;/p&gt;
+&lt;div class="CodeRay"&gt;
+  &lt;div class="code"&gt;&lt;pre&gt;require &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;'&lt;/span&gt;&lt;span style=""&gt;spec/rails&lt;/span&gt;&lt;span style="color:#710"&gt;'&lt;/span&gt;&lt;/span&gt;&amp;#x000A;require &lt;span style="background-color:#fff0f0;color:#D20"&gt;&lt;span style="color:#710"&gt;'&lt;/span&gt;&lt;span style=""&gt;remarkable_rails&lt;/span&gt;&lt;span style="color:#710"&gt;'&lt;/span&gt;&lt;/span&gt;&amp;#x000A;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Para mi result&amp;oacute; muy &amp;uacute;til, y no veo raz&amp;oacute;n alguna para no usarlo de aqu&amp;iacute; en m&amp;aacute;s (m&amp;aacute;s all&amp;aacute; de incluir una nueva dependencia).&lt;/p&gt;
+&lt;p&gt;Si tienen la libertad de poder incluir/sugerir mejoras en sus proyectos actuales, y se cansaron de escribir siempre lo mismo, entonces prueben Remarkable. Posta, te hace la vida mucho m&amp;aacute;s simple. Ojo, hay que pensar igual :P&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Un poco nada m&aacute;s</title>
+   <link href="http://henrik.nyh.se/2009/04/06/un-poco-nada-m-s"/>
+   <updated>2009-04-06T00:00:00-03:00</updated>
+   <id>http://henrik.nyh.se/2009/04/06/un-poco-nada-m-s</id>
+   <content type="html">&lt;p&gt;Ayer, a la vuelta de LXR me puse a retocar los temas del EP. Ya falta cada vez un poco menos. Se podr&amp;iacute;a decir que ya est&amp;aacute; todo listo a nivel mezcla. Solo falta que terminemos con el arte. Claramente a principio de abril ya no llegamos, pero quiz&amp;aacute;s en unas semanas podamos arribar a buen puerto.&lt;/p&gt;
+&lt;p&gt;La lista definitiva de temas, con su orden ya establecido es la siguiente:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Navegar&lt;/li&gt;
+  &lt;li&gt;Tun-Tun-Tun&lt;/li&gt;
+  &lt;li&gt;Volando en descubierto&lt;/li&gt;
+  &lt;li&gt;Estoy / No estoy&lt;/li&gt;
+  &lt;li&gt;Sin amor&lt;/li&gt;
+  &lt;li&gt;Cicatrizar&lt;/li&gt;
+  &lt;li&gt;Navegar (Garage version)&lt;/li&gt;
+&lt;/ul&gt;
+Poco, muy poco...
+</content>
+ </entry>
+ 
+ <entry>
+   <title>LocosXRails Post Resolutions</title>
+   <link href="http://henrik.nyh.se/2009/04/05/locosxrails-resolutions"/>
+   <updated>2009-04-05T00:00:00-03:00</updated>
+   <id>http://henrik.nyh.se/2009/04/05/locosxrails-resolutions</id>
+   <content type="html">&lt;p&gt;Justo dos d&amp;iacute;as antes de la conferencia LocosXRails (LXR) me hab&amp;iacute;a puesto a ver algunos videos de la &amp;uacute;ltima RubyConf, entre los que que se inclu&amp;iacute;a el ya cl&amp;aacute;sico TATFT, de &lt;a href="http://smartic.us/"&gt;Brian Liles&lt;/a&gt;. Bastante motivante para ser sincero (Ring 1)&lt;/p&gt;
+&lt;p&gt;La primera charla del evento LXR fue la de Obie Fernandez, y se trat&amp;oacute; del Hashrocket Way. Fue bastante intersante aunque creo que un poco irreal para lo que es Argentina. De cualquier manera siempre aporta tener esos objetivos surrealistas de ejemplo. No todo lo propuesto me pareci&amp;oacute; genial, ya hay algunas caracter&amp;iacute;sticas muy corporate que me dan un poco de nauseas, pero en lo que respecta a las best practices propuestas me pareci&amp;oacute; muy copado. Por supuesto, habl&amp;oacute; de TATFT, y te escuch&amp;eacute;, Obie... (ring 2)&lt;/p&gt;
+&lt;p&gt;Al final del d&amp;iacute;a uno, &lt;a href="http://blog.mmediasys.com/"&gt;Luis Lavena&lt;/a&gt; (un amigo de todos nosotros) se puso a laburar con unos specs y tuve el placer de ver la disciplina de este chab&amp;oacute;n. Ufff. Uffff. Mierda, no baja los brazos. No me acuerdo que era lo que estaba especificando (asumo que algo referido al Ruby Installer de Windows) pero el flaco no abandonaba la pr&amp;aacute;ctica en ning&amp;uacute;n momento. Inclusive los probaba contra Ruby 1.8.6 y 1.9.1. Ver tipos as&amp;iacute; a veces es como una pi&amp;oacute;a de certeza (ring 3)&lt;/p&gt;
+&lt;p&gt;Al otro d&amp;iacute;a, presenci&amp;eacute; la charla de &lt;a href="http://github.com/miloops"&gt;Emilio Tagua&lt;/a&gt;, sobre debugging de aplicaciones rails (muy buena). Al final no se quien agreg&amp;oacute; algo como DATFT (Debugging all the fucking time) refiri&amp;eacute;ndose a que todo lo que hab&amp;iacute;a explicado Emlio no era para guardar para una emergencia, sino que hab&amp;iacute;a que usarlo, practicarlo e incorporarlo, porque no iba a ser f&amp;aacute;cil usar ese toolkit cuando quemaran las papas (ring 4).&lt;/p&gt;
+&lt;p&gt;El valor del test (first) es evidente. No hace falta urgar demasiado en su definici&amp;oacute;n para ver sus beneficios, pero requiere disciplina. Mucha.&lt;/p&gt;
+&lt;p&gt;La cuesti&amp;oacute;n es que ese tema me hace ruido desde hace muchos meses. Todo el tiempo, en cada proyecto, siento que arranco bien, escribiendo specs como corresponde, incluyendo algunos user stories del pepino. Pero que de alguna forma, luego de un tiempo, la cosa se descarrila un poco y pierdo la disciplina: *Comienzo a escribir sin tests.* Si, lo dije, y sin pudor.&lt;/p&gt;
+&lt;p&gt;Algo empuja, que hace que pierda esa batalla. En parte creo que tiene que ver con que el cliente no tiene ni idea del valor del testing y presiona para sacar el feature ya, o simplemente "se trata de un toque muy simple y no vale la pena escribir unos tests para eso", o lisa y llanamente no llego con los tiempos y tengo que correr para llegar a tiempo (problemas de estimaci&amp;oacute;n).&lt;/p&gt;
+&lt;p&gt;No se muy bien cu&amp;aacute;l es la cuesti&amp;oacute;n. Si alguien sabe... please, comenten! Imagino que no soy el &amp;uacute;nico con estos fucking problemas.&lt;/p&gt;
+&lt;p&gt;Asi que mi resoluci&amp;oacute;n post LXR es disciplinarme lo suficiente respecto a mis t&amp;eacute;cnicas de BDD. M&amp;aacute;s all&amp;aacute; de los posts habituales de un blog personal, estar&amp;eacute; bloggeando acerca de lo que vaya aprendiendo durante la marcha. En principio, back to basics. A leer, estudiar y desde hoy, no escribir sin specs.&lt;/p&gt;
+&lt;strong&gt;M&amp;aacute;s vale test en mano que ruby volando.&lt;/strong&gt;
+</content>
+ </entry>
+ 
+ 
+</feed>

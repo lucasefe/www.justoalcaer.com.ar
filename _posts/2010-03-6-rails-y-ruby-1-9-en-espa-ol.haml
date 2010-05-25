@@ -1,0 +1,185 @@
+--- 
+layout: post
+title: Rails 2.3.x y Ruby 1.9, en espa&ntilde;ol
+tags: 
+- desarrollo
+- ruby
+- rails
+---
+%p Hace unos meses pasamos una de las aplicaciones Rails (2.3.5) con las que estabamos trabajando hace tiempo a Ruby 1.9. Recuerdo que fue un quilombo importante. Ayer, arrancamos otra. Por no haber anotado el paso-a-paso terminamos perdiendo 2 horas con una huevada. Para evitarme otra p&eacute;rdida de tiempo, paso a describir el proceso que nos ha resultado mejor.
+
+%p La cuesti&oacute;n es que Rails, por default, no labura con UTF-8, as&iacute; que hay dec&iacute;rselo, por todos lados. Ojo, trabaja con caracteres espa&ntilde;oles, pero no c&oacute;mo especifica la 1.9. 
+
+%h2 Encoding en cada archivo Ruby.
+
+%p Hay que agregarle #encoding: utf-8 al principio de cada archivo. Si, es un plomo, pero con esta rake task es un poco m&aacute;s piloteable. La estructura inicial del script sali&oacute; de annotate_models. 
+
+%p Ejecutar: rake encoding:update_files # una  papa
+
+= tag_link "GIST", "http://gist.github.com/323648"
+
+:coderay
+  #!ruby
+  namespace :encoding do
+    task :update_files do
+      Dir.glob("{app,config,spec,test,lib,db,features}/**/*.{rb,rake}").each do |f|
+        add_encoding(f)
+      end
+    end
+
+    def add_encoding(file_name, encoding = "utf-8")
+      if File.exist?(file_name)
+        old_content = File.read(file_name)
+
+        # Ignore the Schema version line because it changes with each migration
+        encoding_regexp = Regexp.new(/^# encoding: (.*)$/)
+        match_data = old_content.match(encoding_regexp)
+        old_encoding = match_data ? match_data.captures[0].strip : ""
+
+        puts "\#{file_name}: \#{old_encoding}"
+        unless old_encoding == encoding
+          puts " => Changing encoding \#{old_encoding} to \#{encoding}"
+          old_content.sub!(encoding_regexp, "")
+          new_content = "# encoding: \#{encoding} \n\#{old_content}"
+          File.open(file_name, "wb") { |f| f.puts new_content }
+        end
+      end
+    end
+  end
+
+%h2 Forzar encoding en lectura y escritura de datos
+
+%p La idea es con monkey patching forzar a ciertos m&oacute;dulos de Rails a que usen utf-8. No es la soluci&oacute;n m&aacute;s elegante, pero funciona. En este caso se soluciona c&oacute;mo se lee la base de datos (MySQL), como se interpretan los params y como se renderizan las vistas. 
+
+%p La data inicial de c&oacute;mo resolver esto la sacamos de un post de #{tag_link "Akita", ":http://akitaonrails.com/2010/01/04/fixes-para-ruby-1-9-rails-2-3-x-e-unicode"}
+
+= link_to "GIST", "http://gist.github.com/271196"
+
+:coderay
+  #!ruby
+  require 'mysql'
+ 
+  class Mysql::Result
+    def encode(value, encoding = "utf-8")
+      String === value && '1.9'.respond_to?(:force_encoding) ? value.force_encoding(encoding) : value
+    end
+ 
+    def each_utf8(&block)
+      each_orig do |row|
+        yield row.map {|col| encode(col) }
+      end
+    end
+    alias each_orig each
+    alias each each_utf8
+ 
+    def each_hash_utf8(&block)
+      each_hash_orig do |row|
+        row.each {|k, v| row[k] = encode(v) }
+        yield(row)
+      end
+    end
+    alias each_hash_orig each_hash
+    alias each_hash each_hash_utf8
+  end
+  module ActionController
+    class Request
+      private
+        # Convert nested Hashs to HashWithIndifferentAccess and replace
+        # file upload hashs with UploadedFile objects
+        def normalize_parameters(value)
+          case value
+          when Hash
+            if value.has_key?(:tempfile)
+              upload = value[:tempfile]
+              upload.extend(UploadedFile)
+              upload.original_path = value[:filename]
+              upload.content_type = value[:type]
+              upload
+            else
+              h = {}
+              value.each { |k, v| h[k] = normalize_parameters(v) }
+              h.with_indifferent_access
+            end
+          when Array
+            value.map { |e| normalize_parameters(e) }
+          else
+            value.force_encoding('utf-8') if '1.9'.respond_to?(:force_encoding)
+            value
+          end
+        end
+    end
+  end
+ 
+  module ActionView
+    module Renderable #:nodoc:
+      private
+        def compile!(render_symbol, local_assigns)
+          locals_code = local_assigns.keys.map { |key| "\#{key} = local_assigns[:\#{key}];" }.join
+ 
+          source = <<-end_src
+            # encoding: utf-8
+            def \#{render_symbol}(local_assigns)
+              old_output_buffer = output_buffer;\#{locals_code};
+              \#{compiled_source}
+            ensure
+              self.output_buffer = old_output_buffer
+            end
+          end_src
+ 
+          # workaround
+          source.force_encoding('utf-8') if '1.9'.respond_to?(:force_encoding)
+ 
+          begin
+            ActionView::Base::CompiledTemplates.module_eval(source, filename, 0)
+          rescue Errno::ENOENT => e
+            raise e # Missing template file, re-raise for Base to rescue
+          rescue Exception => e # errors from template code
+            if logger = defined?(ActionController) && Base.logger
+              logger.debug "ERROR: compiling \#{render_symbol} RAISED \#{e}"
+              logger.debug "Function body: \#{source}"
+              logger.debug "Backtrace: \#{e.backtrace.join("\n")}"
+            end
+ 
+            raise ActionView::TemplateError.new(self, {}, e)
+          end
+        end
+    end
+  end
+
+%h2 Forzar encoding al leer un archivos (antes de que se abra el log de Rails)
+
+%p Hay que cambiarle el default a Rails para que abra en UTF8 el log. 
+
+:coderay
+  #!bash
+  RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
+  Encoding.default_external = 'UTF-8' if defined? __ENCODING__
+  require File.join(File.dirname(__FILE__), 'boot')
+
+%h2 RVM, Passenger...
+
+%p Por &uacute;ltimo, y solo si usan RVM y Passenger, y bajo algunas circunstancias, tiene que agregarle al archivo $HOME/.rvm/bin/passenger_ruby la menci&oacute;n directa del encoding de la siguiente forma:
+
+%code
+  LC_TYPE=en_US.UTF-8; 
+  export LC_TYPE
+  LANG=LC_TYPE; 
+  export LANG
+
+  exec "/Users/lucasefe/.rvm/ruby-1.9.1-p376/bin/ruby" "$@ -KU"
+
+%h2 Referencias y Recursos
+
+%ul
+  %li
+    = link_to  "Fixes para Ruby 1.9, Rails 2.3.x e Unicode", "http://akitaonrails.com/2010/01/04/fixes-para-ruby-1-9-rails-2-3-x-e-unicode" 
+    Hay que leer un poco de portugu&eacute;s. 
+  %li=link_to "Understanding M17n", "http://blog.grayproductions.net/articles/understanding_m17n"
+  %li Ruby Programming 3rd. edition
+  %li=link_to "RVM", "http://rvm.beginrescueend.com/"
+  %li
+    =link_to "GIST1", "http://gist.github.com/323648" 
+    y  
+    =link_to "GIST2", "http://gist.github.com/271196"
+
+%p Seguro que me olvido de algo...

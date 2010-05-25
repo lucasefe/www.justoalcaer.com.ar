@@ -1,0 +1,29 @@
+--- 
+layout: post
+title: Encuesta sobre Ruby en Argentina usando Google Forms
+tags: 
+- desarrollo
+- ruby
+---
+%p 
+  Hace unas semanas, usando #{link_to("Google Forms", "http://docs.google.com")}, cre&eacute; una encuesta que intentaba responder ciertas preguntas b&aacute;sicas respecto a #{link_to("nuestra comunidad", "http://www.rubyargentina.com.ar/")}. La idea era entender un poco mejor quienes eramos y qu&eacute; quer&iacute;amos. En un tiro la cre&eacute;, y pas&eacute; a anunciarla en la #{link_to "Lista de Correo de Ruby Argentina", "http://rubyargentina.soveran.com/signup"}
+
+%p El resultado de la misma se encuetra publicado aqu&iacute;: 
+
+%ul
+  %li= link_to "Encuesta v0.1", "http://www.lucasefe.com.ar/encuesta-0.1.html"
+
+%p A la semana siguiente, tomando un poco del feedback que me hab&iacute;an pasado, constru&iacute; de la misma forma la versi&oacute;n 0.2. Esta inclu&iacute;a un mont&oacute;n de preguntas extra referidas a carga horaria, salario y expectativas, adem&aacute;s de uno que otro dato regional. Los resultados fueron interesantes, pero comet&iacute; varios errores (por calent&oacute;n) con respecto a Google Forms. 
+
+%p Google Forms (GF) est&aacute; muy bien c&oacute;mo herramienta r&aacute;pida de contrucci&oacute;n de formularios, pero no te permite modificar, o vaciar el form de una manera simple. Hay que tener muy claro el tipo de respuesta que se espera de cada pregunta, como para que el resultado sea representativo. 
+
+%p Ejemplo: GF te genera gr&aacute;ficas autom&aacute;ticamente de cada un de las preguntas, pero solo si *no* se trata de preguntas de texto libre. Bien, yo comet&iacute; el error de preguntar el salario de esa forma, as&iacute; que la gr&aacute;fica que se gener&oacute; inicialmente no serv&iacute;a de nada (4500$ 900U$$ ... ). Lo mismo me sucedi&oacute; con las ciudades de origen. Finalmente lo pude corregir, pero hacerlo fue un parto. 
+
+%p Ah, los resultados de la segunda encuesta se encuentran aqu&iacute;:
+
+%ul 
+  %li= link_to "Encuesta v0.2", "http://www.lucasefe.com.ar/encuesta-0.2.html"
+
+%p Espero que les sirva y provea de informaci&oacute;n &uacute;til para hacer crecer a Ruby en Argentina. 
+
+%p Y recuerden: Si usan Google Forms, verifiquen una y mil veces con casos de prueba si est&aacute;n obteniendo el resultado gr&aacute;fico que esperaban.

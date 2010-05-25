@@ -1,0 +1,63 @@
+---
+title: Rails 3, Autotest, Rspec2 y Ruby 1.9.2
+---
+%p Hace unos d&iacute;as, en mi tiempo libre, me puse a probar un poco el nuevo Rails 3. La idea era arrancar de cero con un nuevo sitio, sin usar casi nada de c&oacute;digo existente, y haciendo BDD al 100%, pero me encontr&eacute; con 40 mil quilombos. He aqu&iacute; los pasos a seguir:
+
+%h2 Instalar Ruby y Rails
+%p Primero segu&iacute; las instrucciones que encontr&eacute; en el blog de #{link_to "plataforma tec", "http://blog.plataformatec.com.br/2010/04/rails-3-with-rvm-ftw/"}. Me acabo de fijar y ahora dice que usemos 1.9.2-head, pero antes dec&iacute;a que us&aacute;ramos la 1.9.2-preview1 (no good).
+
+%h2 Instalar Rspec
+%p Simple. Le&iacute; en un par de lugares que hab&iacute;a que seguir los pasos de este #{link_to 'GIST', 'http://gist.github.com/365816'}. 
+
+%p 
+  Rspec le agrega a tu proyecto Rails 3 un directorio autotest con un archivo discover.rb que se encarga de cargar los mappings de rspec para que autotest sepa d&oacute;nde encontrar los archivos spec/**/*_spec.rb. En ruby 1.8 eso funciona perfecto, porque esa carpeta est&aacute; en el directorio actual, que es incluido en el LOAD_PATH.
+  
+%p
+  En ruby 1.9.2 eso no es as&iacute; (el directorio actual no se incluye) (al menos hasta hoy), entonces al ejecutar 
+  %code autotest
+  que no te encuentra ninguno de los specs que tengas en tu directorio spec. 
+
+  %pre
+    %code
+      lucasefe:justoalcaer.com.ar/ (master) $ autotest                                                                                                                        [16:55:24]
+      (Not running features.  To run features in autotest, set AUTOFEATURE=true.)
+      loading autotest/rails
+      style: Rails
+      (y ac&aacute; nada)
+
+
+%br
+  
+%h2 Habemus fix?
+
+%p Si, pero no es muy limpio. Con #{link_to('Juan Manuel', 'http://twitter.com/jbarreneche')}, mi compa&ntilde;ero de laburo, estuvimos buscando soluciones y se nos ocurri&oacute; algo muy simple. 
+
+%p Escribir un nuevo autotest (solo el loader) y agregarle el directorio actual al LOAD_PATH. Si, obvia soluci&oacute;n. 
+
+%p Quedar&iacute;a as&iacute;:
+
+:coderay
+  #!ruby
+  #!/usr/bin/env ruby
+  require 'rubygems'
+
+  version = ">= 0"
+
+  if ARGV.first =~ /^_(.*)_$/ and Gem::Version.correct? $1 then
+    version = $1
+    ARGV.shift
+  end
+
+  gem 'autotest', version
+  $LOAD_PATH.unshift(".")
+  load Gem.bin_path('autotest', 'autotest', version)
+  
+%p 
+  Grabar el archivo en alg&uacute;n lado (por ejemplo autotest-1.9.2) y hacerlo ejecutable con 
+  %code chmod +x autotest-1.9.2
+  
+%p Ejecutar ese archivo en vez del anterior. No es la soluci&oacute;n m&aacute;s elegante, pero hasta que se solucione, ese es un buen workaround. 
+      
+      
+      
+      

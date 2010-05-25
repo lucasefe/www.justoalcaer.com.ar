@@ -1,0 +1,3 @@
+Running: 
+
+../jekyll/bin/jekyll --server --haml --auto

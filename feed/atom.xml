@@ -4,22 +4,22 @@ layout: nil
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
  
- <title>Lucas Efe's Blog</title>
- <link href="http://www.lucasefe.com.ar/atom.xml" rel="self"/>
- <link href="http://www.lucasefe.com.ar/"/>
+ <title>Justo al Caer</title>
+ <link href="http://www.justoalcaer.com.ar/atom.xml" rel="self"/>
+ <link href="http://www.justoalcaer.com.ar/"/>
  <updated>{{ site.time | date_to_xmlschema }}</updated>
- <id>http://www.lucasefe.com.ar/</id>
+ <id>http://www.justoalcaer.com.ar/</id>
  <author>
-   <name>Lucas Efe</name>
-   <email>lucasefek@gmail.com</email>
+   <name>Justo al Caer</name>
+   <email>info@justoalcaer.com.ar</email>
  </author>
 
  {% for post in site.posts limit: 15 %}
  <entry>
    <title>{{ post.title }}</title>
-   <link href="http://www.lucasefe.com.ar{{ post.url }}"/>
+   <link href="http://www.justoalcaer.com.ar{{ post.url }}"/>
    <updated>{{ post.date | date_to_xmlschema }}</updated>
-   <id>http://www.lucasefe.com.ar{{ post.id }}</id>
+   <id>http://www.justoalcaer.com.ar{{ post.id }}</id>
    <content type="html">{{ post.content | xml_escape }}</content>
  </entry>
  {% endfor %}

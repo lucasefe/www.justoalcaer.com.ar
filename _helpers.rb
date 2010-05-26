@@ -2,10 +2,10 @@ require 'cgi'
 require 'haml-coderay'
 require 'lib/slugalizer'
 
-FEED_URL = "http://www.lucasefe.com.ar/feed/atom.xml"
+FEED_URL = "http://www.justoalcaer.com.ar/feed/atom.xml"
 MYSPACE_URL = "http://www.myspace.com/justoalcaer"
-module Helpers
 
+module Helpers
   def array_to_sentence(array)
     connector = "and"
     case array.length

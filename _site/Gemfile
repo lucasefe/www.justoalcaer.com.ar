@@ -1,5 +1,5 @@
 source :gemcutter
-gem "haml", "2.2.23"
+gem "haml", "3.0.6"
 gem 'liquid'
 gem 'RedCloth'
 gem 'open4'

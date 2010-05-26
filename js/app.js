@@ -1,12 +1,26 @@
-var Blog = {
-  
+var JustoAlCaer = {
+  getFlickrPhotosetInto: function(container, photoset_id) {
+    $(container + " a").livequery('click', function(){
+      $(this).colorbox();
+    });
+    $(container).flickr({ 
+      api_key: '318939e37f41e279441c153093ce0506', 
+      thumbnail_size: 'sq'}).photosetsGetPhotos({
+        photoset_id: photoset_id
+      }
+    );
+  },
+  getFlickr: function() {
+    JustoAlCaer.getFlickrPhotosetInto('#libario-2009', '72157624133710654');
+    JustoAlCaer.getFlickrPhotosetInto('#kronopios-2009', '72157624141187002');
+    
+  },
   getTwitter: function() {
     $("#tweets").getTwitter({
-      userName: "lucasefe",
+      userName: "justoalcaer",
       numTweets: 3,
       slideIn: true,
       showHeading: true,
-      headingText: 'Hace poquito en <a href="http://twitter.com/lucasefe">Twitter</a>:',
       showProfileLink: false,
       rejectRepliesOutOf: 20
     });
@@ -18,7 +32,6 @@ var Blog = {
       $('#edit a').text('Edit').before('[').after(']');
     }
   },
-  
 
   relativizeAge: function() {
     $('#birthday').each(function() {
@@ -73,23 +86,12 @@ var Blog = {
   
 
   init: function() {
+    this.getFlickr();
     this.getTwitter();
-    this.explainGlyphs();
-    this.addEditLinks();
-    this.relativizeAge();
   }
   
 };
 
-$(function() { Blog.init() });
-
-
-// To show edit links:
-//   javascript: edit(true)
-// To hide edit links:
-//   javascript: edit(false)
-function edit(bool) {
-  var value = bool ? 'true' : null;
-  $.cookie('editable', value, { expires: 365*10 });
-  location.reload();
-}
+$(function() { 
+  JustoAlCaer.init();
+});

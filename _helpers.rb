@@ -2,7 +2,7 @@ require 'cgi'
 require 'haml-coderay'
 require 'lib/slugalizer'
 
-FEED_URL = "http://www.justoalcaer.com.ar/feed/atom.xml"
+FEED_URL = "http://www.justoalcaer.com.ar/posts.atom"
 MYSPACE_URL = "http://www.myspace.com/justoalcaer"
 
 module Helpers

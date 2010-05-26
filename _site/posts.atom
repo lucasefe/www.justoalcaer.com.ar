@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>Justo al Caer</title>
+ <link href="http://www.justoalcaer.com.ar/atom.xml" rel="self"/>
+ <link href="http://www.justoalcaer.com.ar/"/>
+ <updated>2010-05-26T18:49:55-03:00</updated>
+ <id>http://www.justoalcaer.com.ar/</id>
+ <author>
+   <name>Justo al Caer</name>
+   <email>info@justoalcaer.com.ar</email>
+ </author>
+
+ 
+ <entry>
+   <title>Justo al Caer busca baterista</title>
+   <link href="http://www.justoalcaer.com.ar/2010/01/18/jac-busca-baterista"/>
+   <updated>2010-01-18T00:00:00-03:00</updated>
+   <id>http://www.justoalcaer.com.ar/2010/01/18/jac-busca-baterista</id>
+   <content type="html">&lt;p&gt;
+  Para terminar de consolidar este proyecto, cuyo objetivo es conformar un grupo de rock-pop que suene potente, ajustado y donde por sobre todo se piense en componer buenas canciones, necesitamos un baterista que, influenciado por bandas del estilo de Soda Stereo, Pearl Jam, Radiohead (y otras) pueda enmarcar a Justo al Caer  y completar la formación.
+&lt;/p&gt;
+&lt;p&gt;
+  Podés escuchar nuestro EP
+  &lt;a href="http://www.justoalcaer.com.ar/ep.html"&gt;http://www.justoalcaer.com.ar/ep.html&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;Buscamos a alguien con pasión por la música, profesionalismo y sobre todo ganas. Si te interesa, contactate mandándonos un mail a info@justoalcaer.com.ar.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ 
+</feed>

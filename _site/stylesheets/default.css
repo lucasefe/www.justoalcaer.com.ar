@@ -14,7 +14,16 @@ a:hover { text-decoration: underline; }
 #container #sidebar #tweets ul li { list-style: none; margin: 0.5em 0em; }
 #container #main #musica .letra p { letter-spacing: 2px; }
 #container #main #musica .letra .estribo { font-style: italic; }
-#container #main #fotos ul li { background: white; text-align: center; float: left; width: 16.5%; list-style: none; margin-left: 0; }
+#container #main #fechas .fecha { margin: 1em 0em; }
+#container #main #fechas .fecha .dia { font-size: 1.3em; }
+#container #main #fechas .fecha .lugar { font-weight: bold; font-size: 1.2em; }
+#container #main #fechas .fecha .horario { padding-left: 1em; }
+#container #main #fechas .fecha .direccion { padding-left: 1em; }
+#container #main #fechas .fecha .descripcion { padding-left: 1em; }
+#container #main #fechas .fecha .entrada { padding-left: 1em; }
+#container #main #fotos .photoset h2 .autor { color: #7e7e7e; font-size: 0.7em; float: right; margin-top: 0.2em; }
+#container #main #fotos .photoset h2 .autor a { color: #505050; }
+#container #main #fotos .photoset ul li { background: white; text-align: center; float: right; width: 16.5%; list-style: none; margin-left: 0; }
 #container #main #bio p { margin: 0.2em 0em; }
 #container #main #integrantes ul { margin-top: 1em; }
 #container #main #integrantes ul li { margin-bottom: 0.3em; list-style: none; }

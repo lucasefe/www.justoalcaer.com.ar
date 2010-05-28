@@ -1,6 +1,6 @@
 var JustoAlCaer = {
   getFlickrPhotosetInto: function(container, photoset_id) {
-    $(container + " a").livequery('click', function(){
+    $(container + " a").livequery(function(){
       $(this).colorbox();
     });
     $(container).flickr({ 

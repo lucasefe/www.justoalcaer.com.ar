@@ -25,69 +25,30 @@ var JustoAlCaer = {
       rejectRepliesOutOf: 20
     });
   },
-  
-
-  addEditLinks: function() {
-    if ($.cookie('editable') && $('#edit').length) {
-      $('#edit a').text('Edit').before('[').after(']');
-    }
-  },
-
-  relativizeAge: function() {
-    $('#birthday').each(function() {
-        var text  = $(this).text();
-        var born  = new Date(text);
-        var today = new Date();
-        var ydiff = today.getFullYear() - born.getFullYear();
-        var bday = new Date(text);
-        bday.setFullYear(today.getFullYear());
-        if (bday > today) ydiff -= 1;
-
-        $(this).append(' ('+ydiff+' years old)');
+  putPlayers: function() {
+    flowplayer("a.player", "/swf/flowplayer-3.2.1.swf", {
+      plugins: {
+      	audio: {
+    			url: '/swf/flowplayer.audio-3.2.1.swf'
+    		},
+    		controls: {
+    			fullscreen: false,
+    			height: 30,
+    			autoHide: false
+    		}
+    	},
+    	clip: {
+    		autoPlay: false,
+    		onBeforeBegin: function() {
+    			$f("a.player").close();
+    		}
+    	}
     });
   },
-  
-
-  explainGlyphs: function() {
-    var glyphs = {
-      "␣": "Space",
-      "↩": "Return",
-      "⌅": "Enter",
-      "⇥": "Tab",
-      "⇤": "Backtab",
-      "⌫": "Backspace",
-      "⌦": "Forward Delete",
-      "⌘": "Command",
-      "⌥": "Option",
-      "^": "Control",
-      "⌃": "Control",
-      "⇧": "Shift",
-      "⇪": "Caps Lock",
-      "←": "Left Arrow",
-      "→": "Right Arrow",
-      "↑": "Up Arrow",
-      "↓": "Down Arrow",
-      "↖": "Home",
-      "↘": "End",
-      "⇞": "Page Up",
-      "⇟": "Page Down",
-      "⎋": "Escape",
-      "⏏": "Eject"
-    };
-
-    function glyphsToNames(text) {
-      return text.split('').map(function(x) { return (glyphs[x] || x) }).join(" ");
-    }
-    $('.kb').each(function() {
-      var text = $(this).text();
-      this.title = "Key"+(text.length>1 ? "s" : "")+": " + glyphsToNames(text);
-    });
-  },
-  
-
   init: function() {
     this.getFlickr();
     this.getTwitter();
+    this.putPlayers();
   }
   
 };

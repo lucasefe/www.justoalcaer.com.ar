@@ -30,10 +30,15 @@ a:hover { text-decoration: underline; }
 #container #main #fotos .photoset h2 .autor { color: #7e7e7e; font-size: 0.7em; float: right; margin-top: 0.2em; }
 #container #main #fotos .photoset h2 .autor a { color: #505050; }
 #container #main #fotos .photoset ul li { background: white; text-align: center; float: right; width: 16.5%; list-style: none; margin-left: 0; }
-#container #main #bio p { margin: 0.2em 0em; }
-#container #main #integrantes ul { margin-top: 1em; }
-#container #main #integrantes ul li { margin-bottom: 0.3em; list-style: none; }
+#container #main #bio p { margin: 0.5em 0em; }
+#container #main #integrantes h3 { font-size: 1em; }
+#container #main #integrantes ul { font-size: 0.9em; margin-top: 1em; }
+#container #main #integrantes ul li { margin-bottom: 0.3em; margin-left: 1em; list-style: none; }
 #container #main #integrantes ul li strong { font-size: 1.2em; }
+#container #main #colaboradores h3 { font-size: 1em; text-align: right; }
+#container #main #colaboradores ul { font-size: 0.9em; margin-top: 1em; float: right; text-align: right; }
+#container #main #colaboradores ul li { margin-bottom: 0.3em; margin-left: 1em; list-style: none; }
+#container #main #colaboradores ul li strong { font-size: 1.2em; }
 
 #header { background: transparent url("/images/banner2.png") no-repeat 50% 100%; height: 120px; }
 

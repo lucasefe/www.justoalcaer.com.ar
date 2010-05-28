@@ -20,8 +20,7 @@ var JustoAlCaer = {
       userName: "justoalcaer",
       numTweets: 3,
       slideIn: true,
-      showHeading: true,
-      showProfileLink: false,
+      showProfileLink: true,
       rejectRepliesOutOf: 20
     });
   },

@@ -6,6 +6,31 @@ FEED_URL = "http://www.justoalcaer.com.ar/posts.atom"
 MYSPACE_URL = "http://www.myspace.com/justoalcaer"
 
 module Helpers
+  def nav_link(name, link, css = '')
+    haml_tag :li, link_to(name, link, :class => css)
+  end
+  def navigation
+    labels = [
+      'Justo al Caer',     
+      'Blog',              
+      'M&uacute;sica',     
+      'Fotos',             
+      'Fechas',            
+      'Cont&aacute;ctate',
+    ]
+    links = [
+      '/bio.html', 
+      "/", 
+      "/musica.html", 
+      "/fotos.html", 
+      "/fechas.html", 
+      "/contactate.html"
+    ]
+    labels.each_with_index do |label, i|
+      css ||= (page.title.underscore =~ /#{label.underscore}/) ? 'active' : ''
+      nav_link(label, links[i], css)
+    end
+  end
   def array_to_sentence(array)
     connector = "and"
     case array.length

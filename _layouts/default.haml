@@ -25,28 +25,30 @@
       #header.grid_12
       #top-header.grid_12
         %ul
-          %li= link_to('Justo al Caer', "/bio.html")
-          %li= link_to('Blog', "/")
-          %li= link_to('M&uacute;sica', "/musica.html")
-          %li= link_to('Fotos', "/fotos.html")
-          %li= link_to('Fechas', "/fechas.html")
-          %li= link_to('Cont&aacute;ctate', "/contactate.html")
+          - navigation
       #main.grid_9
         = content
       #sidebar.grid_3
         #tweets
       #footer.grid_12
-        .grid_6.alpha
+        .grid_4.alpha
           = link_to('RSS', FEED_URL)
+          %br
           = link_to('Twitter', "http://www.twitter.com/justoalcaer")
+          %br
           = link_to('MySpace', "http://www.myspace.com/justoalcaer")
+          %br
           = link_to('Facebook', "http://www.facebook.com/#!/pages/Justo-Al-Caer/39438329526")
-        .grid_6.right.omega
+        .grid_4
+          %ul
+            - site.categories.keys.each do |category|
+              %li= category.humanize
+        .grid_4.right.omega
           Powered by
           = link_to('Jekyll', 'http://github.com/henrik/jekyll')
           and
           = link_to('Disqus', 'http://disqus.com')
-          \.
+          %br
           This is
           = link_to('Open Source', 'http://github.com/lucasefe/www.justoalcaer.com.ar')
     #bottom

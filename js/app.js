@@ -33,14 +33,15 @@ var JustoAlCaer = {
     		},
     		controls: {
     			fullscreen: false,
-    			height: 30,
+    			height: 19,
     			autoHide: false
     		}
     	},
     	clip: {
     		autoPlay: false,
     		onBeforeBegin: function() {
-    			$f("a.player").close();
+    		  // Don't know how to do this in an elegant way. 
+    		  $('a.player').flowplayer().each(function(){ this.stop(); });
     		}
     	}
     });

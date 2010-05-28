@@ -13,7 +13,7 @@ a:hover { text-decoration: underline; }
 #container #sidebar #tweets h2 { font-size: 1.1em; text-align: right; }
 #container #sidebar #tweets ul { font-size: 0.9em; text-align: right; }
 #container #sidebar #tweets ul li { list-style: none; margin: 0.5em 0em; }
-#container #main #musica a.player { float: left; width: 450px; height: 27px; margin-bottom: 1em; }
+#container #main #musica a.player { float: left; width: 450px; height: 15px; margin-bottom: 1em; }
 #container #main #musica .letra { width: 50%; }
 #container #main #musica .letra p { letter-spacing: 2px; }
 #container #main #musica .letra .estribo { font-style: italic; }

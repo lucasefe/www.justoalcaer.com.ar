@@ -40,6 +40,7 @@ var JustoAlCaer = {
     	clip: {
     		autoPlay: false,
     		onBeforeBegin: function() {
+    		  alert("beforebegin");
     			$f("a.player").close();
     		}
     	}

@@ -4,7 +4,7 @@ require 'lib/slugalizer'
 
 FEED_URL = "http://www.justoalcaer.com.ar/posts.atom"
 MYSPACE_URL = "http://www.myspace.com/justoalcaer"
-
+MESES = %w(WHAT Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre)
 module Helpers
   def nav_link(name, link, css = '')
     haml_tag :li, link_to(name, link, :class => css)

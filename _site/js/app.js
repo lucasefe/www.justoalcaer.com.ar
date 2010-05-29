@@ -36,7 +36,7 @@ var JustoAlCaer = {
     			autoHide: false
     		},
     		gatracker: {
-        			url: "flowplayer.analytics-3.2.0.swf",
+        			url: "/swf/flowplayer.analytics-3.2.0.swf",
               trackingMode: "Bridge",
         			bridgeObject: "_tracker",
         			debug: true,

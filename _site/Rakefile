@@ -4,12 +4,16 @@ require 'net/ssh'
 
 GITHUB_REPO = 'git://github.com/lucasefe/www.justoalcaer.com.ar.git'
 STAGING_TO = 'neura.lucasefe.com.ar:/var/apps/staging.justoalcaer.com.ar/'
+PRODUCTION_TO = 'neura.lucasefe.com.ar:/var/apps/www.justoalcaer.com.ar/'
 
-# desc "deploy site to litanyagainstfear.com"
-# task :deploy do
-#   raise "Todavía no!"
-#   deploy_to('neura.lucasefe.com.ar:/var/apps/wwww.justoalcaer.com.ar/', GITHUB_REPO)
-# end
+desc "deploy site to litanyagainstfear.com"
+task :deploy do
+  deploy_to(PRODUCTION_TO, GITHUB_REPO)  
+end
+task :setup do
+  cold_deploy_to(PRODUCTION_TO, GITHUB_REPO)
+end
+
 namespace :staging do
   task :deploy do
     deploy_to(STAGING_TO, GITHUB_REPO)

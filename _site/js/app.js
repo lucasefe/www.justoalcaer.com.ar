@@ -34,7 +34,26 @@ var JustoAlCaer = {
     			fullscreen: false,
     			height: 19,
     			autoHide: false
-    		}
+    		},
+    		gatracker: {
+        			url: "flowplayer.analytics-3.2.0.swf",
+              trackingMode: "Bridge",
+        			bridgeObject: "_tracker",
+        			debug: true,
+        			labels: {
+              				start: "Start",	
+              				play: "Play",	
+              				pause: "Pause",	
+              				resume: "Resume",	
+              				seek: "Seek",	
+              				stop: "Stop",	
+              				finish: "Finish",	
+              				mute: "Mute",	
+              				unmute: "Unmute",	
+              				fullscreen: "Full Screen",	
+              				fullscreenexit: "Full Screen Exit"	
+              			}
+        		}
     	},
     	clip: {
     		autoPlay: false,

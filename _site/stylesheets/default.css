@@ -6,6 +6,8 @@ a { color: #a31e00; text-decoration: none; }
 
 a:hover { text-decoration: underline; }
 
+#ep p.cover { text-align: center; }
+
 #top-header { margin-top: 1em; }
 #top-header ul li { background: white; text-align: center; float: left; width: 16.5%; list-style: none; margin-left: 0; }
 #top-header ul li a { color: black; font-size: 1.2em; letter-spacing: 3px; border-bottom: black 1px dotted; float: left; padding-bottom: 0.2em; width: 100%; }
@@ -47,3 +49,17 @@ a:hover { text-decoration: underline; }
 
 #footer { margin-top: 2em; }
 #footer .right { text-align: right; }
+
+#post h1 { margin-bottom: 0; }
+#post .subtitle { color: #bbbbbb; margin-top: 0; font-size: 13px; }
+#post .subtitle a { color: #777777; }
+#post .center { text-align: center; }
+#post img.bordered { border: 1px solid #aaaaaa; }
+#post .updated { background: #fffeeb; border: 1px solid #aaaaaa; border-width: 1px 0; padding: 10px; margin: 20px 10px; }
+#post .updated h5 { margin: 6px 0; }
+#post #older_and_newer { margin-top: 20px; }
+#post #older_and_newer p { font-size: 0.8em; }
+#post #older_and_newer p strong { width: 10em; display: inline-block; text-align: right; margin-right: 5px; }
+#post #related_posts { margin-top: 30px; margin-bottom: 30px; }
+#post #related_posts p { margin: 0; font-size: 0.8em; }
+#post #related_posts p strong { width: 10em; display: inline-block; text-align: right; margin-right: 5px; }

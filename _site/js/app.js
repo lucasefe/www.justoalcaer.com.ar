@@ -11,9 +11,9 @@ var JustoAlCaer = {
     );
   },
   getFlickr: function() {
+    JustoAlCaer.getFlickrPhotosetInto('#olivos-2010', '72157624287250066');
     JustoAlCaer.getFlickrPhotosetInto('#libario-2009', '72157624133710654');
     JustoAlCaer.getFlickrPhotosetInto('#kronopios-2009', '72157624141187002');
-    
   },
   getTwitter: function() {
     $("#tweets").getTwitter({

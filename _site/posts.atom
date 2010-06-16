@@ -4,13 +4,29 @@
  <title>Justo al Caer</title>
  <link href="http://www.justoalcaer.com.ar/atom.xml" rel="self"/>
  <link href="http://www.justoalcaer.com.ar/"/>
- <updated>2010-06-07T14:34:14-03:00</updated>
+ <updated>2010-06-16T09:00:49-03:00</updated>
  <id>http://www.justoalcaer.com.ar/</id>
  <author>
    <name>Justo al Caer</name>
    <email>info@justoalcaer.com.ar</email>
  </author>
 
+ 
+ <entry>
+   <title>Nuevas fotos del recital en Espacio Olivos</title>
+   <link href="http://www.justoalcaer.com.ar/2010/06/16/fotos-de-olivos"/>
+   <updated>2010-06-16T00:00:00-03:00</updated>
+   <id>http://www.justoalcaer.com.ar/2010/06/16/fotos-de-olivos</id>
+   <content type="html">&lt;p&gt;Acabamos de subir las fotos del recital del sábado en Espacio Olivos.&lt;/p&gt;
+&lt;p&gt;
+  &lt;img alt="Justo al Caer" src="http://farm2.static.flickr.com/1277/4705467823_937fd1dfe9.jpg" /&gt;
+&lt;/p&gt;
+&lt;p&gt;
+  Podés verlas haciendo clic
+  &lt;a href="/fotos.html"&gt;aquí&lt;/a&gt;
+&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>¡Justo al Caer en Olivos, no te olvides!</title>

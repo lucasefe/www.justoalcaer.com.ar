@@ -6,7 +6,7 @@ layout: default
   %p.subtitle
     = page.date.strftime("%d/%m/%Y")
     Tags: 
-    = tag_links(page.tags)
+    = page.tags.inspect
 
     -# TextMate edit link. JS sets the link text if a cookie is present: see js/app.js.
     %span#edit= link_to('', "txmt://open?url=file://#{page.path}")

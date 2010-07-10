@@ -4,13 +4,27 @@
  <title>Justo al Caer</title>
  <link href="http://www.justoalcaer.com.ar/atom.xml" rel="self"/>
  <link href="http://www.justoalcaer.com.ar/"/>
- <updated>2010-07-10T20:00:13-03:00</updated>
+ <updated>2010-07-10T20:25:30-03:00</updated>
  <id>http://www.justoalcaer.com.ar/</id>
  <author>
    <name>Justo al Caer</name>
    <email>info@justoalcaer.com.ar</email>
  </author>
 
+ 
+ <entry>
+   <title>Fotos de Libario</title>
+   <link href="http://www.justoalcaer.com.ar/2010/07/10/fotos-de-libario-2010"/>
+   <updated>2010-07-10T00:00:00-03:00</updated>
+   <id>http://www.justoalcaer.com.ar/2010/07/10/fotos-de-libario-2010</id>
+   <content type="html">&lt;p&gt;Hace muy poco que nos bajamos del escenario y ya tenemos la fotos del recital! Gracias, Carla, por la onda y el aguante de siempre.&lt;/p&gt;
+&lt;p&gt;M&amp;aacute;s gracias tambi&amp;eacute;n a todos los que se dieron una vuelta por Libario, y nos ayudaron a calentar el ambiento de la fria noche de ayer. Se agradece...&lt;/p&gt;
+&lt;p&gt;
+  Ah, casi me olvido:
+  &lt;a href="/fotos.html"&gt;Fotos&lt;/a&gt;
+&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Presentación en Libario, Palermo</title>
